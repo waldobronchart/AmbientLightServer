@@ -64,38 +64,21 @@ Color* TrapezoidSampler::SampleFromImage(const IplImage* frame)
 	char *frameBuffer = frame->imageData;
 	Color *colorBuffer = new Color[NumLeds()];
 
-	/*std::stringstream ss;
-	ss << "SAMPLES: ";*/
-
-	int led = 0;
+	int colorIndex = 0;
 	for (std::vector<TrapezoidSampleArea>::iterator i=m_sampleAreas.begin(); i!=m_sampleAreas.end(); ++i)
 	{
 		TrapezoidSampleArea area = *i;
 
 		Vector2 samplePoint = area.Center() * frameSize;
-		int pixelOffset = (int)(samplePoint.X()) +  ((int)(samplePoint.Y()) * frame->height);
+		int pixelOffset = (int)(samplePoint.X()) +  ((int)(samplePoint.Y()) * frame->width);
 		pixelOffset *= 3;
 
 		// OpenCV is GBR
 		Color c = Color(frameBuffer[pixelOffset+2], frameBuffer[pixelOffset+1], frameBuffer[pixelOffset]);
-		
-		/*ss << "L";
-		ss << led;
-		ss << "(";
-		ss << (int)c.R;
-		ss << ",";
-		ss << (int)c.G;
-		ss << ",";
-		ss << (int)c.B;
-		ss << ")";*/
 
-		//c = Color(255, 0, 0);
-
-		colorBuffer[led] = c;
-		led++;
+		colorBuffer[colorIndex] = c;
+		colorIndex++;
 	}
-
-	//LOG_DEBUG(ss.str().c_str());
 
 	return colorBuffer;
 }
