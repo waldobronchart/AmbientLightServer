@@ -1,0 +1,10 @@
+.idea
+*_ReSharper*
+Debug
+ipch
+*.sdf
+*.suo
+*.filters
+*.user
+*.opensdf
+prefs.txt

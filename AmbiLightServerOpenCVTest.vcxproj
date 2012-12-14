@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{644F8250-E57E-4D0F-9AFC-368CE1944ABC}</ProjectGuid>
+    <RootNamespace>AmbiLightServerOpenCVTest</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>E:\Libraries\log4cplus\include;E:\Libraries\jansson\include;E:\Libraries\opencv\include;E:\Libraries\opencv\build\x86\vc10\bin;E:\Libraries\boost\include\boost-1_52;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>E:\Libraries\log4cplus\lib\Debug_Unicode;E:\Libraries\log4cplus\lib\Debug;E:\Libraries\jansson\lib\Debug;E:\Libraries\opencv\lib\Debug;E:\Libraries\boost\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LibraryPath>E:\Libraries\jansson\lib\Release;E:\Libraries\opencv\lib\Release;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_MBCS;_WIN32_WINNT=0x0501;_CRT_SECURE_NO_WARNINGS;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opencv_calib3d242d.lib;opencv_contrib242d.lib;opencv_core242d.lib;opencv_features2d242d.lib;opencv_flann242d.lib;opencv_gpu242d.lib;opencv_haartraining_engined.lib;opencv_highgui242d.lib;opencv_imgproc242d.lib;opencv_legacy242d.lib;opencv_ml242d.lib;opencv_nonfree242d.lib;opencv_objdetect242d.lib;opencv_photo242d.lib;opencv_stitching242d.lib;opencv_ts242d.lib;opencv_video242d.lib;opencv_videostab242d.lib;jansson.lib;log4cplus-CLFSAppender.lib;log4cplusSUD.lib;log4cplusUD.lib;log4cplusD.lib;log4cplusSD.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <CustomBuild>
+      <Command>
+      </Command>
+    </CustomBuild>
+    <CustomBuildStep>
+      <Command>COPY "E:\Libraries\jansson\lib\Debug\jansson.dll" "$(TargetDir)"
+COPY "E:\Libraries\log4cplus\lib\Debug\log4cplusD.dll" "$(TargetDir)"</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>jansson.dll;log4cplusD.dll</Outputs>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Inputs>jansson.dll;log4cplusD.dll</Inputs>
+    </CustomBuildStep>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opencv_calib3d231.lib;opencv_contrib231.lib;opencv_core231.lib;opencv_features2d231.lib;opencv_flann231.lib;opencv_gpu231.lib;opencv_haartraining_engine.lib;opencv_highgui231.lib;opencv_imgproc231.lib;opencv_legacy231.lib;opencv_ml231.lib;opencv_objdetect231.lib;opencv_ts231.lib;opencv_video231.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="CameraController.cpp" />
+    <ClCompile Include="Connection.cpp" />
+    <ClCompile Include="LEDController.cpp" />
+    <ClCompile Include="Logging.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MathUtils.cpp" />
+    <ClCompile Include="NetIncomingMessage.cpp" />
+    <ClCompile Include="NetOutgoingMessage.cpp" />
+    <ClCompile Include="Preferences.cpp" />
+    <ClCompile Include="Server.cpp" />
+    <ClCompile Include="TrapezoidSampler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CameraController.h" />
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="Connection.h" />
+    <ClInclude Include="Logging.h" />
+    <ClInclude Include="MathUtils.h" />
+    <ClInclude Include="MsgFrameBuffer.h" />
+    <ClInclude Include="MsgGenericRequest.h" />
+    <ClInclude Include="MsgGenericResponse.h" />
+    <ClInclude Include="MsgHandlerBase.h" />
+    <ClInclude Include="LEDController.h" />
+    <ClInclude Include="MsgPreferences.h" />
+    <ClInclude Include="MsgSetBounds.h" />
+    <ClInclude Include="MsgSetPins.h" />
+    <ClInclude Include="NetIncomingMessage.h" />
+    <ClInclude Include="NetMessageType.h" />
+    <ClInclude Include="NetOutgoingMessage.h" />
+    <ClInclude Include="Preferences.h" />
+    <ClInclude Include="Server.h" />
+    <ClInclude Include="TrapezoidSampler.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
