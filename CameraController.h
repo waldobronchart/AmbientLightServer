@@ -22,6 +22,8 @@ public:
 		cvSetCaptureProperty(m_capture, CV_CAP_PROP_FPS, 30);
 		cvSetCaptureProperty(m_capture, CV_CAP_PROP_FRAME_WIDTH, 160);
 		cvSetCaptureProperty(m_capture, CV_CAP_PROP_FRAME_HEIGHT, 120);
+
+
 		
 		cvSetCaptureProperty(m_capture, CV_CAP_PROP_BRIGHTNESS, 118);
 		cvSetCaptureProperty(m_capture, CV_CAP_PROP_CONTRAST, 30);
