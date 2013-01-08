@@ -2,11 +2,9 @@
 	"folders":
 	[
 		{
-			"path": "/Users/waldob/Workspace/AmbiLightServer",
-			"file_exclude_patterns": [
-					"*.sublime-workspace", "*.sln", "*.vcxproj", "*.tga", "*.prefab", "*.unity", "*.asset", "*.wav", "*.mat",
-					"*.fbx", "*.cubemap", "*.fdp", "*.bak", "*.exr", "*.flare", "*.pvr"
-				]
+			"path": "E:/Workspace/Ambi-Light-Project/al-server",
+			"file_exclude_patterns": ["*.sublime-workspace", "*.sln", "*.vcx*",	"*Resharper*", "*.opensdf"],
+			"folder_exclude_patterns": ["*ReSharper*", "ipch", "Debug", ".idea"]
 		}
 	]
 }
