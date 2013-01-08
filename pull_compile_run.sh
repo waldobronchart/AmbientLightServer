@@ -11,7 +11,7 @@ uvcdynctrl -s "Gain" 20
 uvcdynctrl -s "White Balance Temperature" 8360
 uvcdynctrl -s "Sharpness" 0
 uvcdynctrl -s "Backlight Compensation" 1
-uvcdynctrl -s "Exposure, Auto" -4
+uvcdynctrl -s "Exposure, Auto" 1
 uvcdynctrl -s "Exposure (Absolute)" 166
 uvcdynctrl -s "Exposure, Auto Priority" 0
 
