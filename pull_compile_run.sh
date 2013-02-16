@@ -43,7 +43,7 @@ uvcdynctrl -g "Backlight Compensation"
 echo Exposure, Auto
 uvcdynctrl -g "Exposure, Auto"
 
-echo Exposure (Absolute)
+echo Exposure Absolute
 uvcdynctrl -g "Exposure (Absolute)"
 
 echo Exposure, Auto Priority
