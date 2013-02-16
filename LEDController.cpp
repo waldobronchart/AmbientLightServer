@@ -1,6 +1,8 @@
 #include "LEDController.h"
 #include "Logging.h"
 
+#include <boost/timer.hpp>
+
 LEDController* LEDController::Instance = 0;
 
 #ifdef RASPBERRY_PI
@@ -40,6 +42,8 @@ void LEDController::SetPins(int clockPin, int dataPin)
 
 void LEDController::UpdateLeds(Color* colorBuffer, int numLeds)
 {
+	boost::timer timer;
+
 	if (!m_isSetup)
 		return;
 
@@ -58,6 +62,8 @@ void LEDController::UpdateLeds(Color* colorBuffer, int numLeds)
 	digitalWrite(m_clockPin, 0);
 	delay(1);
 	#endif
+
+	LOG_INFO("UpdateLeds took " << timer.elapsed() << " seconds");
 }
 
 void LEDController::ShiftOut8Bits(char c)
