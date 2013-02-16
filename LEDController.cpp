@@ -38,26 +38,6 @@ void LEDController::SetPins(int clockPin, int dataPin)
 	#endif
 }
 
-int LedIndexToBufferIndex(int current, int max, int start, int direction)
-{
-	// Anti-clockwise
-	if (direction < 0)
-	{
-		int result = start - current;
-		if (result < 0)
-			result += max;
-
-		return result;
-	}
-
-	// Clockwise
-	int result = start + current;
-	if (result > max)
-		result -= max;
-
-	return result;
-}
-
 void LEDController::UpdateLeds(Color* colorBuffer, int numLeds)
 {
 	if (!m_isSetup)
@@ -68,9 +48,7 @@ void LEDController::UpdateLeds(Color* colorBuffer, int numLeds)
 
 	for (int i=0; i<numLeds; ++i)
 	{
-		int colorBufferIndex = LedIndexToBufferIndex(i, numLeds, 32, -1);
-		Color color = colorBuffer[colorBufferIndex];
-
+		Color color = colorBuffer[i];
 		ShiftOut8Bits(color.R);
 		ShiftOut8Bits(color.G);
 		ShiftOut8Bits(color.B);

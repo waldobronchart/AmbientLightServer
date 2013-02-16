@@ -8,3 +8,4 @@ ipch
 *.user
 *.opensdf
 prefs.txt
+*.sublime-workspace

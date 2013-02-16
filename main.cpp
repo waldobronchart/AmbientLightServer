@@ -68,10 +68,13 @@ int main(int argc, char* argv[])
 		// Camera controller setup
 		camControl = new CameraController();
 
-		// Sampler setup
-		sampler = new TrapezoidSampler();
+		// Get preferences
 		Vector2 topLeft, topRight, bottomRight, bottomLeft;
 		prefs->GetBounds(topLeft, topRight, bottomRight, bottomLeft);
+
+		// Sampler setup
+		// todo: setsize from preferences
+		sampler = new TrapezoidSampler();
 		sampler->UpdatePoints(topLeft, topRight, bottomRight, bottomLeft);
 
 		// Port

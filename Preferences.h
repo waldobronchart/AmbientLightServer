@@ -13,8 +13,7 @@ public:
 	static Preferences* Instance;
 
 	Preferences() :
-	  m_numLedsHorizontal(0), m_numLedsVertical(0), m_clockPin(0), m_dataPin(1)
-	  //m_capPropExposure(-5), 
+	  m_numLedsHorizontal(16), m_numLedsVertical(9), m_clockPin(0), m_dataPin(1)
 	{
 		Instance = this;
 	}
@@ -43,9 +42,9 @@ private:
 	int m_clockPin;
 	int m_dataPin;
 	
-	int m_capPropExposure;
+	/*int m_capPropExposure;
 	unsigned char m_capPropBrightness;
 	unsigned char m_capPropContrast;
 	unsigned char m_capPropGain;
-	unsigned char m_capPropSaturation;
+	unsigned char m_capPropSaturation;*/
 };

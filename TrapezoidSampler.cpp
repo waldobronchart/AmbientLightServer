@@ -5,6 +5,26 @@ TrapezoidSampler* TrapezoidSampler::Instance = 0;
 
 #include <sstream>
 
+int ToBufferIndex(int current, int max, int start, int direction)
+{
+	// Anti-clockwise
+	if (direction < 0)
+	{
+		int result = start - current;
+		if (result < 0)
+			result += max;
+
+		return result;
+	}
+
+	// Clockwise
+	int result = start + current;
+	if (result > max)
+		result -= max;
+
+	return result;
+}
+
 void TrapezoidSampler::SetSize(short rows, short cols)
 {
 	LOG_INFO("TrapezoidSampler.SetSize: Rows = " << rows << " Cols = " << cols);
@@ -13,25 +33,43 @@ void TrapezoidSampler::SetSize(short rows, short cols)
 	m_cols = cols;
 
 	// Create new list of sample areas
+	int numLeds = rows*2 + cols*2;
 	m_sampleAreas.clear();
-	m_sampleAreas.resize(rows*2 + cols*2);
+	m_sampleAreas.resize(numLeds);
+	
+	// I want the leds sorted from last led in strand to first led. 
+	//  in my case, the start led in this list is 32 (that's bottom middle on the frame at the back of my tv)
 	int i = 0;
+	int startLed = 32; /*hardcoded because i'm lazy*/
+	int direction = -1;
 
 	// Top row
 	for (int x=0; x<rows; x++)
-		m_sampleAreas[i++] = TrapezoidSampleArea(x, 0);
+	{
+		int bufferIndex = ToBufferIndex(i++, numLeds, startLed, direction);
+		m_sampleAreas[bufferIndex] = TrapezoidSampleArea(x, 0);
+	}
 
 	// Right col
 	for (int y=1; y<cols+1; y++)
-		m_sampleAreas[i++] = TrapezoidSampleArea(rows-1, y);
+	{
+		int bufferIndex = ToBufferIndex(i++, numLeds, startLed, direction);
+		m_sampleAreas[bufferIndex] = TrapezoidSampleArea(rows-1, y);
+	}
 
 	// Bottom row
 	for (int x=rows-1; x>=0; x--)
-		m_sampleAreas[i++] = TrapezoidSampleArea(x, cols+1);
+	{
+		int bufferIndex = ToBufferIndex(i++, numLeds, startLed, direction);
+		m_sampleAreas[bufferIndex] = TrapezoidSampleArea(x, cols+1);
+	}
 
 	// Left col
 	for (int y=cols-1; y>=0; y--)
-		m_sampleAreas[i++] = TrapezoidSampleArea(0, y);
+	{
+		int bufferIndex = ToBufferIndex(i++, numLeds, startLed, direction);
+		m_sampleAreas[bufferIndex] = TrapezoidSampleArea(0, y);
+	}
 }
 
 void TrapezoidSampler::UpdatePoints(Vector2 topLeft, Vector2 topRight, Vector2 bottomRight, Vector2 bottomLeft)
@@ -73,7 +111,7 @@ Color* TrapezoidSampler::SampleFromImage(const IplImage* frame)
 		int pixelOffset = (int)(samplePoint.X()) +  ((int)(samplePoint.Y()) * frame->width);
 		pixelOffset *= 3;
 
-		// OpenCV is GBR
+		// OpenCV's color format is [Green,Blue,Red]
 		Color c = Color(frameBuffer[pixelOffset+2], frameBuffer[pixelOffset+1], frameBuffer[pixelOffset]);
 
 		colorBuffer[colorIndex] = c;
