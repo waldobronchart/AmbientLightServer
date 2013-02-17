@@ -67,7 +67,7 @@ void LEDController::UpdateLeds(Color* colorBuffer, int numLeds)
 	}
 	
 	#ifdef RASPBERRY_PI
-	digitalWrite(m_clockPin, 0);
+	digitalWrite(m_clockPin1, 0);
 	digitalWrite(m_clockPin2, 0);
 	delay(1);
 	#endif
