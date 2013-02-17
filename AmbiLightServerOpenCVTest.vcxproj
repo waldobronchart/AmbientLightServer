@@ -113,7 +113,6 @@ COPY "E:\Libraries\log4cplus\lib\Debug\log4cplusD.dll" "$(TargetDir)"</Command>
     <ClInclude Include="LEDController.h" />
     <ClInclude Include="MsgPreferences.h" />
     <ClInclude Include="MsgSetBounds.h" />
-    <ClInclude Include="MsgSetPins.h" />
     <ClInclude Include="NetIncomingMessage.h" />
     <ClInclude Include="NetMessageType.h" />
     <ClInclude Include="NetOutgoingMessage.h" />

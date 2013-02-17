@@ -4,7 +4,6 @@
 
 #include "MsgGenericRequest.h"
 #include "MsgSetBounds.h"
-#include "MsgSetPins.h"
 
 Connection::Connection(boost::asio::io_service& ioService) : m_socket(ioService)
 {
@@ -64,10 +63,6 @@ void Connection::HandleReadBody(const boost::system::error_code& error)
 
 	case MSG_SET_BOUNDS:
 		msgHandler = new MsgSetBounds();
-		break;
-
-	case MSG_SET_PINS:
-		msgHandler = new MsgSetPins();
 		break;
 
 	default:

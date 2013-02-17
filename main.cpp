@@ -61,9 +61,7 @@ int main(int argc, char* argv[])
 		prefs->Load();
 
 		// LED controller setup
-		int clockPin, dataPin;
-		prefs->GetPins(clockPin, dataPin);
-		ledControl = new LEDController(clockPin, dataPin);
+		ledControl = new LEDController();
 
 		// Camera controller setup
 		camControl = new CameraController();
