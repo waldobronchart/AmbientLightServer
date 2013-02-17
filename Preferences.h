@@ -13,7 +13,8 @@ public:
 	static Preferences* Instance;
 
 	Preferences() :
-	  m_numLedsHorizontal(16), m_numLedsVertical(9), m_clockPin(0), m_dataPin(1)
+	  m_numLedsHorizontal(16), m_numLedsVertical(9), m_clockPin(0), m_dataPin(1),
+	  m_singleLedTest(49)
 	{
 		Instance = this;
 	}
@@ -26,6 +27,10 @@ public:
 	void SetBounds(const Vector2& topLeft, const Vector2& topRight, const Vector2& bottomRight, const Vector2& bottomLeft);
 	void GetPins(int& clockPin, int& dataPin);
 	void SetPins(int clockPin, int dataPin);
+	int GetSingleLedTest()
+	{
+		return m_singleLedTest;
+	}
 
 private:
 	void ReadVector2(const json_t *root, const char* propertyName, Vector2& dest);
@@ -41,6 +46,8 @@ private:
 
 	int m_clockPin;
 	int m_dataPin;
+
+	int m_singleLedTest;
 	
 	/*int m_capPropExposure;
 	unsigned char m_capPropBrightness;

@@ -95,15 +95,12 @@ int main(int argc, char* argv[])
 		ctrl.FrameUpdate33ms();
 
 		ioService.run();
-
-		// Save prefs
-		prefs->Save();
 	}
 	catch (std::exception& e)
 	{
 		LOG_FATAL("Exception: " << e.what() << "\n");
 		return 1;
 	}
-
+	
 	return 0;
 }

@@ -28,6 +28,7 @@ void Preferences::Load()
 	ReadInt(root, "numLedsVertical", m_numLedsVertical);
 	ReadInt(root, "clockPin", m_clockPin);
 	ReadInt(root, "dataPin", m_dataPin);
+	ReadInt(root, "singleLedTest", m_singleLedTest);
 
 	// Cleanup
 	json_decref(root);
@@ -47,6 +48,7 @@ json_t* Preferences::JsonEncode() const
 	json_object_set_new(root, "numLedsVertical", json_integer(m_numLedsVertical));
 	json_object_set_new(root, "clockPin", json_integer(m_clockPin));
 	json_object_set_new(root, "dataPin", json_integer(m_dataPin));
+	json_object_set_new(root, "singleLedTest", json_integer(m_singleLedTest));
 
 	return root;
 }

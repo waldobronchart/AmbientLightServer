@@ -1,5 +1,6 @@
 #include "LEDController.h"
 #include "Logging.h"
+#include "Preferences.h"
 
 #include <boost/timer.hpp>
 
@@ -48,6 +49,8 @@ void LEDController::UpdateLeds(Color* colorBuffer, int numLeds)
 	if (colorBuffer == 0)
 		return;
 
+	int testLed = Preferences::Instance->GetSingleLedTest();
+
 	for (int i=0; i<numLeds; ++i)
 	{
 		/*Color color = colorBuffer[i];
@@ -55,9 +58,18 @@ void LEDController::UpdateLeds(Color* colorBuffer, int numLeds)
 		ShiftOut8Bits(color.G);
 		ShiftOut8Bits(color.B);*/
 
-		ShiftOut8Bits(255);
-		ShiftOut8Bits(0);
-		ShiftOut8Bits(0);
+		if (testLed == i)
+		{
+			ShiftOut8Bits(255);
+			ShiftOut8Bits(0);
+			ShiftOut8Bits(0);
+		}
+		else
+		{
+			ShiftOut8Bits(0);
+			ShiftOut8Bits(0);
+			ShiftOut8Bits(0);
+		}
 	}
 	
 	#ifdef RASPBERRY_PI
