@@ -88,7 +88,7 @@ void LEDController::ShiftOut8Bits(char c)
 		digitalWrite(m_clockPin, 0);
 		digitalWrite(m_dataPin, val);
 		digitalWrite(m_clockPin, 1);
-		delayMicroseconds(200);
+		delayMicroseconds(20);
 	}
 	#endif
 }
