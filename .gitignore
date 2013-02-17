@@ -7,5 +7,4 @@ ipch
 *.filters
 *.user
 *.opensdf
-prefs.txt
 *.sublime-workspace
