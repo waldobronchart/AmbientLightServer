@@ -26,8 +26,6 @@ void Preferences::Load()
 	ReadVector2(root, "boundsBottomLeft", m_boundsBottomLeft);
 	ReadInt(root, "numLedsHorizontal", m_numLedsHorizontal);
 	ReadInt(root, "numLedsVertical", m_numLedsVertical);
-	ReadInt(root, "clockPin", m_clockPin);
-	ReadInt(root, "dataPin", m_dataPin);
 
 	// Cleanup
 	json_decref(root);
@@ -45,8 +43,6 @@ json_t* Preferences::JsonEncode() const
 	json_object_set_new(root, "boundsBottomLeft", json_vector2(m_boundsBottomLeft));
 	json_object_set_new(root, "numLedsHorizontal", json_integer(m_numLedsHorizontal));
 	json_object_set_new(root, "numLedsVertical", json_integer(m_numLedsVertical));
-	json_object_set_new(root, "clockPin", json_integer(m_clockPin));
-	json_object_set_new(root, "dataPin", json_integer(m_dataPin));
 
 	return root;
 }
@@ -81,24 +77,6 @@ void Preferences::SetBounds(const Vector2& topLeft, const Vector2& topRight, con
 	m_boundsTopRight = topRight;
 	m_boundsBottomRight = bottomRight;
 	m_boundsBottomLeft = bottomLeft;
-
-	Save();
-}
-
-void Preferences::GetPins(int& clockPin, int& dataPin)
-{
-	clockPin = m_clockPin;
-	dataPin = m_dataPin;
-}
-
-void Preferences::SetPins(int clockPin, int dataPin)
-{
-	LOG_INFO("Preferences: pins set");
-	LOG_DEBUG(" - m_clockPin = " << clockPin);
-	LOG_DEBUG(" - m_dataPin = " << dataPin);
-
-	m_clockPin = clockPin;
-	m_dataPin = dataPin;
 
 	Save();
 }
