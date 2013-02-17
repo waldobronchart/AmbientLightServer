@@ -28,6 +28,8 @@ LEDController::LEDController(int clockPin, int dataPin)
 
 	pinMode(m_clockPin, OUTPUT);
 	pinMode(m_dataPin, OUTPUT);
+	pinMode(m_clockPin2, OUTPUT);
+	pinMode(m_dataPin2, OUTPUT);
 	#endif
 }
 
@@ -39,6 +41,8 @@ void LEDController::SetPins(int clockPin, int dataPin)
 	#ifdef RASPBERRY_PI
 	pinMode(m_clockPin, OUTPUT);
 	pinMode(m_dataPin, OUTPUT);
+	pinMode(m_clockPin2, OUTPUT);
+	pinMode(m_dataPin2, OUTPUT);
 	#endif
 }
 
@@ -49,8 +53,6 @@ void LEDController::UpdateLeds(Color* colorBuffer, int numLeds)
 
 	if (colorBuffer == 0)
 		return;
-
-	int testLed = Preferences::Instance->GetSingleLedTest();
 
 	for (int i=0; i<numLeds/2; ++i)
 	{
