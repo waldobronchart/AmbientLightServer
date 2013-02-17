@@ -11,7 +11,8 @@ LEDController* LEDController::Instance = 0;
 #endif
 
 LEDController::LEDController(int clockPin, int dataPin)
-	: m_clockPin(clockPin), m_dataPin(dataPin), m_isSetup(true)
+	: m_clockPin(clockPin), m_dataPin(dataPin), m_isSetup(true),
+	m_clockPin2(3), m_dataPin2(4)
 {
 	Instance = this;
 
@@ -51,25 +52,28 @@ void LEDController::UpdateLeds(Color* colorBuffer, int numLeds)
 
 	int testLed = Preferences::Instance->GetSingleLedTest();
 
-	for (int i=0; i<25; ++i)
+	for (int i=0; i<numLeds/2; ++i)
 	{
 		/*Color color = colorBuffer[i];
 		ShiftOut8Bits(color.R);
 		ShiftOut8Bits(color.G);
 		ShiftOut8Bits(color.B);*/
 
-		if (testLed == i)
-		{
-			ShiftOut8Bits(255);
-			ShiftOut8Bits(0);
-			ShiftOut8Bits(0);
-		}
-		else
-		{
-			ShiftOut8Bits(0);
-			ShiftOut8Bits(0);
-			ShiftOut8Bits(0);
-		}
+		ShiftOut8Bits(m_clockPin, m_dataPin, 0);
+		ShiftOut8Bits(m_clockPin, m_dataPin, 255);
+		ShiftOut8Bits(m_clockPin, m_dataPin, 0);
+	}
+
+	for (int i=numLeds/2; i<numLeds; ++i)
+	{
+		/*Color color = colorBuffer[i];
+		ShiftOut8Bits(color.R);
+		ShiftOut8Bits(color.G);
+		ShiftOut8Bits(color.B);*/
+		
+		ShiftOut8Bits(m_clockPin2, m_dataPin2, 255);
+		ShiftOut8Bits(m_clockPin2, m_dataPin2, 0);
+		ShiftOut8Bits(m_clockPin2, m_dataPin2, 0);
 	}
 	
 	#ifdef RASPBERRY_PI
@@ -78,16 +82,16 @@ void LEDController::UpdateLeds(Color* colorBuffer, int numLeds)
 	#endif
 }
 
-void LEDController::ShiftOut8Bits(char c)
+void LEDController::ShiftOut8Bits(int clockPin, int dataPin, char c)
 {
 	#ifdef RASPBERRY_PI
 	for (int bit = 0; bit < 8; bit++)
 	{
 		bool val = (c >> (7 - bit)) & 1;
 
-		digitalWrite(m_clockPin, 0);
-		digitalWrite(m_dataPin, val);
-		digitalWrite(m_clockPin, 1);
+		digitalWrite(clockPin, 0);
+		digitalWrite(dataPin, val);
+		digitalWrite(clockPin, 1);
 	}
 	#endif
 }
