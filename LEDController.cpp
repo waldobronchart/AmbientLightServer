@@ -51,7 +51,7 @@ void LEDController::UpdateLeds(Color* colorBuffer, int numLeds)
 
 	int testLed = Preferences::Instance->GetSingleLedTest();
 
-	for (int i=0; i<16; ++i)
+	for (int i=0; i<25; ++i)
 	{
 		/*Color color = colorBuffer[i];
 		ShiftOut8Bits(color.R);
