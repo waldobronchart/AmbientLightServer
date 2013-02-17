@@ -41,7 +41,7 @@ public:
 		ledControl->UpdateLeds(colorBuffer, sampler->NumLeds());
 
 		// Reset timer
-		m_timer.expires_at(m_timer.expires_at() + boost::posix_time::milliseconds(33));
+		m_timer.expires_at(m_timer.expires_at() + boost::posix_time::milliseconds(1000));
 		m_timer.async_wait(boost::bind(&UpdateControl::FrameUpdate33ms, this));
 	}
 
