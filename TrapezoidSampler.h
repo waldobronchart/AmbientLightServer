@@ -7,7 +7,7 @@
 #include "Color.h"
 #include "HardwareConfig.h"
 
-/// Single area for each LED
+// Single area for each LED
 struct TrapezoidSampleArea
 {
 	TrapezoidSampleArea() {}

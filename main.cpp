@@ -38,7 +38,9 @@ public:
 
 		// Update leds
 		Color* colorBuffer = sampler->SampleFromImage(camControl->Frame());
-		ledControl->UpdateLeds(colorBuffer, sampler->NumLeds());
+		ledControl->UpdateLeds(colorBuffer);
+
+		// todo: you need to delete colorBuffer!
 
 		// Reset timer
 		m_timer.expires_at(m_timer.expires_at() + boost::posix_time::milliseconds(33));

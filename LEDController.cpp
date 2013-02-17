@@ -11,7 +11,7 @@ LEDController* LEDController::Instance = 0;
 #include "wiringPi/wiringPi.h"
 #endif
 
-LEDController::LEDController() : m_isSetup(true)
+LEDController::LEDController() : m_isSetup(true), m_prevColorBuffer(0)
 {
 	Instance = this;
 
@@ -34,7 +34,7 @@ LEDController::LEDController() : m_isSetup(true)
 	#endif
 }
 
-void LEDController::UpdateLeds(Color* colorBuffer, int numLeds)
+void LEDController::UpdateLeds(Color* colorBuffer)
 {
 	if (!m_isSetup)
 		return;
@@ -42,15 +42,25 @@ void LEDController::UpdateLeds(Color* colorBuffer, int numLeds)
 	if (colorBuffer == 0)
 		return;
 
+	// First update
+	if (m_prevColorBuffer == 0)
+		m_prevColorBuffer = colorBuffer;
+
 	// I could have just attached the two strands together
 	//  making it one big strand of 50, which uses just on data and one clock pin
 	// But unfortunately I was getting a lot of noise at the end of strand
 	// That's why I split it up!
 
+	// Linear interpolation term for smoothness!
+	const float deltaTime = 1/33.3f;
+	const float fadeTimeMS = 0.5f;
+	float lerpTerm = deltaTime/fadeTimeMS;
+
 	// Update first strand of 25
 	for (int i=0; i<NUM_LEDS_PER_STRAND; ++i)
 	{
-		Color color = colorBuffer[i];
+		Color color = lerpColor(colorBuffer[i], m_prevColorBuffer[i], lerpTerm);
+
 		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, color.R);
 		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, color.G);
 		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, color.B);
@@ -59,7 +69,8 @@ void LEDController::UpdateLeds(Color* colorBuffer, int numLeds)
 	// Update second strand of 25
 	for (int i=NUM_LEDS_PER_STRAND; i<TOTAL_NUM_LEDS; ++i)
 	{
-		Color color = colorBuffer[i];
+		Color color = lerpColor(colorBuffer[i], m_prevColorBuffer[i], lerpTerm);
+
 		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, color.R);
 		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, color.G);
 		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, color.B);
@@ -70,6 +81,10 @@ void LEDController::UpdateLeds(Color* colorBuffer, int numLeds)
 	digitalWrite(GPIO_CLOCK_PIN2, 0);
 	delay(1);
 	#endif
+
+	// Delete previous buffer, assign new one
+	delete m_prevColorBuffer;
+	m_prevColorBuffer = colorBuffer;
 }
 
 void LEDController::ShiftOut8Bits(int clockPin, int dataPin, char c)

@@ -89,6 +89,7 @@ COPY "E:\Libraries\log4cplus\lib\Debug\log4cplusD.dll" "$(TargetDir)"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CameraController.cpp" />
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="Connection.cpp" />
     <ClCompile Include="LEDController.cpp" />
     <ClCompile Include="Logging.cpp" />

@@ -9,3 +9,5 @@ struct Color
 	unsigned char G;
 	unsigned char B;
 };
+
+Color lerpColor(const Color& c1, const Color& c2, float val);
