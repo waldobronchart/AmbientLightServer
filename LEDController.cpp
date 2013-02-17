@@ -51,7 +51,7 @@ void LEDController::UpdateLeds(Color* colorBuffer, int numLeds)
 
 	int testLed = Preferences::Instance->GetSingleLedTest();
 
-	for (int i=0; i<numLeds; ++i)
+	for (int i=0; i<16; ++i)
 	{
 		/*Color color = colorBuffer[i];
 		ShiftOut8Bits(color.R);
@@ -88,7 +88,6 @@ void LEDController::ShiftOut8Bits(char c)
 		digitalWrite(m_clockPin, 0);
 		digitalWrite(m_dataPin, val);
 		digitalWrite(m_clockPin, 1);
-		delayMicroseconds(20);
 	}
 	#endif
 }
