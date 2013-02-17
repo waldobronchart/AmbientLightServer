@@ -24,8 +24,6 @@ void Preferences::Load()
 	ReadVector2(root, "boundsTopRight", m_boundsTopRight);
 	ReadVector2(root, "boundsBottomRight", m_boundsBottomRight);
 	ReadVector2(root, "boundsBottomLeft", m_boundsBottomLeft);
-	ReadInt(root, "numLedsHorizontal", m_numLedsHorizontal);
-	ReadInt(root, "numLedsVertical", m_numLedsVertical);
 
 	// Cleanup
 	json_decref(root);
@@ -41,8 +39,6 @@ json_t* Preferences::JsonEncode() const
 	json_object_set_new(root, "boundsTopRight", json_vector2(m_boundsTopRight));
 	json_object_set_new(root, "boundsBottomRight", json_vector2(m_boundsBottomRight));
 	json_object_set_new(root, "boundsBottomLeft", json_vector2(m_boundsBottomLeft));
-	json_object_set_new(root, "numLedsHorizontal", json_integer(m_numLedsHorizontal));
-	json_object_set_new(root, "numLedsVertical", json_integer(m_numLedsVertical));
 
 	return root;
 }

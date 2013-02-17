@@ -1,6 +1,7 @@
 #include "LEDController.h"
 #include "Logging.h"
 #include "Preferences.h"
+#include "HardwareConfig.h"
 
 #include <boost/timer.hpp>
 
@@ -10,13 +11,12 @@ LEDController* LEDController::Instance = 0;
 #include "wiringPi/wiringPi.h"
 #endif
 
-LEDController::LEDController()
-	: m_clockPin1(0), m_clockPin2(3), m_dataPin1(1), m_dataPin2(4), m_isSetup(true)
+LEDController::LEDController() : m_isSetup(true)
 {
 	Instance = this;
 
-	LOG_INFO("LEDController: setting up with ClockPin1=" << m_clockPin1 << " DataPin1=" << m_dataPin1
-					<< " ClockPin2=" << m_clockPin2 << " DataPin2=" << m_dataPin2);
+	LOG_INFO("LEDController: setting up with ClockPin1=" << GPIO_CLOCK_PIN1 << " DataPin1=" << GPIO_DATA_PIN1
+					<< " ClockPin2=" << GPIO_CLOCK_PIN2 << " DataPin2=" << GPIO_DATA_PIN2);
 
 	#ifdef RASPBERRY_PI
 	if (wiringPiSetup() < 0)
@@ -26,11 +26,11 @@ LEDController::LEDController()
 		return;
 	}
 
-	pinMode(m_clockPin1, OUTPUT);
-	pinMode(m_clockPin2, OUTPUT);
+	pinMode(GPIO_CLOCK_PIN1, OUTPUT);
+	pinMode(GPIO_CLOCK_PIN2, OUTPUT);
 
-	pinMode(m_dataPin1, OUTPUT);
-	pinMode(m_dataPin2, OUTPUT);
+	pinMode(GPIO_DATA_PIN1, OUTPUT);
+	pinMode(GPIO_DATA_PIN2, OUTPUT);
 	#endif
 }
 
@@ -45,30 +45,29 @@ void LEDController::UpdateLeds(Color* colorBuffer, int numLeds)
 	// I could have just attached the two strands together
 	//  making it one big strand of 50, which uses just on data and one clock pin
 	// But unfortunately I was getting a lot of noise at the end of strand
-	// That's why I split it up
-	int ledsPerStrand = numLeds / 2;
+	// That's why I split it up!
 
 	// Update first strand of 25
-	for (int i=0; i<ledsPerStrand; ++i)
+	for (int i=0; i<NUM_LEDS_PER_STRAND; ++i)
 	{
 		Color color = colorBuffer[i];
-		ShiftOut8Bits(m_clockPin1, m_dataPin1, color.R);
-		ShiftOut8Bits(m_clockPin1, m_dataPin1, color.G);
-		ShiftOut8Bits(m_clockPin1, m_dataPin1, color.B);
+		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, color.R);
+		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, color.G);
+		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, color.B);
 	}
 
 	// Update second strand of 25
-	for (int i=ledsPerStrand; i<numLeds; ++i)
+	for (int i=NUM_LEDS_PER_STRAND; i<TOTAL_NUM_LEDS; ++i)
 	{
 		Color color = colorBuffer[i];
-		ShiftOut8Bits(m_clockPin2, m_dataPin2, color.R);
-		ShiftOut8Bits(m_clockPin2, m_dataPin2, color.G);
-		ShiftOut8Bits(m_clockPin2, m_dataPin2, color.B);
+		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, color.R);
+		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, color.G);
+		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, color.B);
 	}
 	
 	#ifdef RASPBERRY_PI
-	digitalWrite(m_clockPin1, 0);
-	digitalWrite(m_clockPin2, 0);
+	digitalWrite(GPIO_CLOCK_PIN1, 0);
+	digitalWrite(GPIO_CLOCK_PIN2, 0);
 	delay(1);
 	#endif
 }

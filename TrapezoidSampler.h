@@ -5,6 +5,7 @@
 
 #include "MathUtils.h"
 #include "Color.h"
+#include "HardwareConfig.h"
 
 /// Single area for each LED
 struct TrapezoidSampleArea
@@ -29,7 +30,7 @@ class TrapezoidSampler
 public:
 	static TrapezoidSampler* Instance;
 
-	TrapezoidSampler() : m_rows(16), m_cols(9) {
+	TrapezoidSampler() : m_rows(NUM_LEDS_HORIZONTAL), m_cols(NUM_LEDS_VERTICAL) {
 		Instance = this;
 		SetSize(m_rows, m_cols);
 	}

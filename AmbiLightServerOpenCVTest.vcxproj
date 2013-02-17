@@ -104,6 +104,7 @@ COPY "E:\Libraries\log4cplus\lib\Debug\log4cplusD.dll" "$(TargetDir)"</Command>
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Connection.h" />
+    <ClInclude Include="HardwareConfig.h" />
     <ClInclude Include="Logging.h" />
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="MsgFrameBuffer.h" />

@@ -1,0 +1,11 @@
+#pragma once
+
+#define GPIO_CLOCK_PIN1 0
+#define GPIO_CLOCK_PIN2 3
+#define GPIO_DATA_PIN1 1
+#define GPIO_DATA_PIN2 4
+
+#define TOTAL_NUM_LEDS 50
+#define NUM_LEDS_PER_STRAND 25
+#define NUM_LEDS_HORIZONTAL 16
+#define NUM_LEDS_VERTICAL 9

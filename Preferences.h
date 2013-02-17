@@ -12,8 +12,7 @@ class Preferences
 public:
 	static Preferences* Instance;
 
-	Preferences() :
-	  m_numLedsHorizontal(16), m_numLedsVertical(9)
+	Preferences()
 	{
 		Instance = this;
 	}
@@ -33,13 +32,10 @@ private:
 	Vector2 m_boundsTopRight;
 	Vector2 m_boundsBottomRight;
 	Vector2 m_boundsBottomLeft;
-
-	int m_numLedsHorizontal;
-	int m_numLedsVertical;
 	
-	/*int m_capPropExposure;
+	int m_capPropExposure;
 	unsigned char m_capPropBrightness;
 	unsigned char m_capPropContrast;
 	unsigned char m_capPropGain;
-	unsigned char m_capPropSaturation;*/
+	unsigned char m_capPropSaturation;
 };
