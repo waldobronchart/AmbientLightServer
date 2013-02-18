@@ -52,28 +52,32 @@ void LEDController::UpdateLeds(Color* colorBuffer)
 	// That's why I split it up!
 
 	// Linear interpolation term for smoothness!
-	const float deltaTime = 1/33.3f;
-	const float fadeTimeMS = 0.5f;
+	const float deltaTime = 33.3f;
+	const float fadeTimeMS = 500;
 	float lerpTerm = deltaTime/fadeTimeMS;
 
 	// Update first strand of 25
 	for (int i=0; i<NUM_LEDS_PER_STRAND; ++i)
 	{
-		Color color = lerpColor(colorBuffer[i], m_prevColorBuffer[i], lerpTerm);
+		Color color = lerpColor(m_prevColorBuffer[i], colorBuffer[i], lerpTerm);
 
 		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, color.R);
 		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, color.G);
 		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, color.B);
+
+		m_prevColorBuffer[i] = color;
 	}
 
 	// Update second strand of 25
 	for (int i=NUM_LEDS_PER_STRAND; i<TOTAL_NUM_LEDS; ++i)
 	{
-		Color color = lerpColor(colorBuffer[i], m_prevColorBuffer[i], lerpTerm);
+		Color color = lerpColor(m_prevColorBuffer[i], colorBuffer[i], lerpTerm);
 
 		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, color.R);
 		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, color.G);
 		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, color.B);
+
+		m_prevColorBuffer[i] = color;
 	}
 	
 	#ifdef RASPBERRY_PI
@@ -81,10 +85,6 @@ void LEDController::UpdateLeds(Color* colorBuffer)
 	digitalWrite(GPIO_CLOCK_PIN2, 0);
 	delay(1);
 	#endif
-
-	// Delete previous buffer, assign new one
-	delete m_prevColorBuffer;
-	m_prevColorBuffer = colorBuffer;
 }
 
 void LEDController::ShiftOut8Bits(int clockPin, int dataPin, char c)

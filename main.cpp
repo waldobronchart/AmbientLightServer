@@ -39,6 +39,7 @@ public:
 		// Update leds
 		Color* colorBuffer = sampler->SampleFromImage(camControl->Frame());
 		ledControl->UpdateLeds(colorBuffer);
+		delete colorBuffer;
 
 		// todo: you need to delete colorBuffer!
 
