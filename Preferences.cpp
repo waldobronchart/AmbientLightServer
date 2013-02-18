@@ -24,7 +24,13 @@ void Preferences::Load()
 	ReadVector2(root, "boundsTopRight", m_boundsTopRight);
 	ReadVector2(root, "boundsBottomRight", m_boundsBottomRight);
 	ReadVector2(root, "boundsBottomLeft", m_boundsBottomLeft);
+
 	ReadFloat(root, "totalFadeTimeMS", m_totalFadeTimeMS);
+
+	ReadFloat(root, "camBrightness", m_camBrightness);
+	ReadFloat(root, "camContrast", m_camContrast);
+	ReadFloat(root, "camSaturation", m_camSaturation);
+	ReadFloat(root, "camGain", m_camGain);
 
 	// Cleanup
 	json_decref(root);
@@ -44,6 +50,10 @@ json_t* Preferences::JsonEncode() const
 	json_object_set_new(root, "boundsBottomRight", json_vector2(m_boundsBottomRight));
 	json_object_set_new(root, "boundsBottomLeft", json_vector2(m_boundsBottomLeft));
 	json_object_set_new(root, "totalFadeTimeMS", json_real(m_totalFadeTimeMS));
+	json_object_set_new(root, "camBrightness", json_real(m_camBrightness));
+	json_object_set_new(root, "camContrast", json_real(m_camContrast));
+	json_object_set_new(root, "camSaturation", json_real(m_camSaturation));
+	json_object_set_new(root, "camGain", json_real(m_camGain));
 
 	return root;
 }

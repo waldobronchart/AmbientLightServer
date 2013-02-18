@@ -12,7 +12,8 @@ class Preferences
 public:
 	static Preferences* Instance;
 
-	Preferences() : m_totalFadeTimeMS(200)
+	Preferences() : m_totalFadeTimeMS(200), 
+					m_camBrightness(0.46f), m_camContrast(0.12f), m_camSaturation(0.29f), m_camGain(0.8f)
 	{
 		Instance = this;
 	}
@@ -37,9 +38,9 @@ private:
 
 	float m_totalFadeTimeMS;
 	
-	int m_capPropExposure;
-	unsigned char m_capPropBrightness;
-	unsigned char m_capPropContrast;
-	unsigned char m_capPropGain;
-	unsigned char m_capPropSaturation;
+	//int m_camExposure;
+	float m_camBrightness;
+	float m_camContrast;
+	float m_camSaturation;
+	float m_camGain;
 };
