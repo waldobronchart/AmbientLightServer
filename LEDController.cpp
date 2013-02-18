@@ -14,6 +14,7 @@ LEDController* LEDController::Instance = 0;
 LEDController::LEDController() : m_isSetup(true), m_prevColorBuffer(0)
 {
 	Instance = this;
+	m_prevColorBuffer = new Color[TOTAL_NUM_LEDS];
 
 	LOG_INFO("LEDController: setting up with ClockPin1=" << GPIO_CLOCK_PIN1 << " DataPin1=" << GPIO_DATA_PIN1
 					<< " ClockPin2=" << GPIO_CLOCK_PIN2 << " DataPin2=" << GPIO_DATA_PIN2);
@@ -41,10 +42,6 @@ void LEDController::UpdateLeds(Color* colorBuffer)
 
 	if (colorBuffer == 0)
 		return;
-
-	// First update
-	if (m_prevColorBuffer == 0)
-		m_prevColorBuffer = colorBuffer;
 
 	// I could have just attached the two strands together
 	//  making it one big strand of 50, which uses just on data and one clock pin
