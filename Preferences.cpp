@@ -24,9 +24,13 @@ void Preferences::Load()
 	ReadVector2(root, "boundsTopRight", m_boundsTopRight);
 	ReadVector2(root, "boundsBottomRight", m_boundsBottomRight);
 	ReadVector2(root, "boundsBottomLeft", m_boundsBottomLeft);
+	ReadFloat(root, "totalFadeTimeMS", m_totalFadeTimeMS);
 
 	// Cleanup
 	json_decref(root);
+
+	// Call save once, this add new properties to the prefs file
+	Save();
 }
 
 json_t* Preferences::JsonEncode() const
@@ -39,6 +43,7 @@ json_t* Preferences::JsonEncode() const
 	json_object_set_new(root, "boundsTopRight", json_vector2(m_boundsTopRight));
 	json_object_set_new(root, "boundsBottomRight", json_vector2(m_boundsBottomRight));
 	json_object_set_new(root, "boundsBottomLeft", json_vector2(m_boundsBottomLeft));
+	json_object_set_new(root, "totalFadeTimeMS", json_real(m_totalFadeTimeMS));
 
 	return root;
 }
@@ -112,5 +117,24 @@ void Preferences::ReadInt(const json_t *root, const char* propertyName, int& des
 	else
 	{
 		LOG_ERROR("Preferences.Load: '" << propertyName << "' is not an integer");
+	}
+}
+
+void Preferences::ReadFloat(const json_t *root, const char* propertyName, float& dest)
+{
+	json_t* jReal = json_object_get(root, propertyName);
+	if (!jReal)
+	{
+		LOG_ERROR("Preferences.Load: '" << propertyName << "' does not exist");
+	}
+
+	if (json_is_real(jReal))
+    {
+		dest = (float)json_real_value(jReal);
+		LOG_DEBUG(" - " << propertyName << " = " << dest);
+    }
+	else
+	{
+		LOG_ERROR("Preferences.Load: '" << propertyName << "' is not a float");
 	}
 }

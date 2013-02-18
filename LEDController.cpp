@@ -13,11 +13,15 @@ LEDController* LEDController::Instance = 0;
 
 LEDController::LEDController() : m_isSetup(true), m_prevColorBuffer(0)
 {
-	Instance = this;
-	m_prevColorBuffer = new Color[TOTAL_NUM_LEDS];
-
 	LOG_INFO("LEDController: setting up with ClockPin1=" << GPIO_CLOCK_PIN1 << " DataPin1=" << GPIO_DATA_PIN1
 					<< " ClockPin2=" << GPIO_CLOCK_PIN2 << " DataPin2=" << GPIO_DATA_PIN2);
+
+	Instance = this;
+
+	// Prev color buffer for interpolation
+	m_prevColorBuffer = new Color[TOTAL_NUM_LEDS];
+	for (int i=0; i<TOTAL_NUM_LEDS; i++)
+		m_prevColorBuffer[i] = Color(0, 0, 0);
 
 	#ifdef RASPBERRY_PI
 	if (wiringPiSetup() < 0)
@@ -50,7 +54,9 @@ void LEDController::UpdateLeds(Color* colorBuffer)
 
 	// Linear interpolation term for smoothness!
 	const float deltaTime = 33.3f;
-	const float fadeTimeMS = 500;
+	float fadeTimeMS = Preferences::Instance->GetTotalFadeTimeMS();
+	if (fadeTimeMS < deltaTime)
+		fadeTimeMS = deltaTime;
 	float lerpTerm = deltaTime/fadeTimeMS;
 
 	// Update first strand of 25
