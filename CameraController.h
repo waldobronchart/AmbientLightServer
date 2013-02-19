@@ -19,15 +19,15 @@ public:
 		: m_capture(0), m_frame(0)
 	{
 		m_capture = cvCaptureFromCAM(CV_CAP_ANY);
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_FPS, 24);
+		cvSetCaptureProperty(m_capture, CV_CAP_PROP_FPS, 30);
 
 		/*cvSetCaptureProperty(m_capture, CV_CAP_PROP_FRAME_WIDTH, 640);
 		cvSetCaptureProperty(m_capture, CV_CAP_PROP_FRAME_HEIGHT, 480);*/
 		//cvSetCaptureProperty(m_capture, CV_CAP_PROP_FRAME_WIDTH, 160);
 		//cvSetCaptureProperty(m_capture, CV_CAP_PROP_FRAME_HEIGHT, 120);
 
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_FRAME_WIDTH, 80);
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_FRAME_HEIGHT, 60);
+		cvSetCaptureProperty(m_capture, CV_CAP_PROP_FRAME_WIDTH, 320);
+		cvSetCaptureProperty(m_capture, CV_CAP_PROP_FRAME_HEIGHT, 240);
 
 		cvSetCaptureProperty(m_capture, CV_CAP_PROP_BRIGHTNESS, 118/255.0);
 		cvSetCaptureProperty(m_capture, CV_CAP_PROP_CONTRAST, 30/255.0);
