@@ -77,7 +77,7 @@ public:
 			delete [] m_colorBuffer;
 
 		// Reset timer
-		m_loopTimer.expires_at(m_loopTimer.expires_at() + boost::posix_time::microseconds(200));
+		m_loopTimer.expires_at(m_loopTimer.expires_at() + boost::posix_time::milliseconds(23));
 		m_loopTimer.async_wait(boost::bind(&UpdateControl::UpdateLoop, this));
 		//m_prevTime = currentTime;
 		float totalTime = captureTimeTaken + sampleTimeTaken + updateTimeTaken;
