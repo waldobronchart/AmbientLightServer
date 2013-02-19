@@ -53,10 +53,11 @@ void LEDController::UpdateLeds(Color* colorBuffer, float deltaTime)
 	// That's why I split it up!
 
 	// Linear interpolation term for smoothness!
+	float deltaTimeMS = deltaTime * 1000.0f;
 	float fadeTimeMS = Preferences::Instance->GetTotalFadeTimeMS();
-	if (fadeTimeMS < deltaTime)
-		fadeTimeMS = deltaTime;
-	float lerpTerm = deltaTime/fadeTimeMS;
+	if (fadeTimeMS < deltaTimeMS)
+		fadeTimeMS = deltaTimeMS;
+	float lerpTerm = deltaTimeMS/fadeTimeMS;
 
 	// Update first strand of 25
 	for (int i=0; i<NUM_LEDS_PER_STRAND; ++i)
