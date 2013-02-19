@@ -80,7 +80,8 @@ public:
 		m_loopTimer.expires_at(m_loopTimer.expires_at() + boost::posix_time::microseconds(200));
 		m_loopTimer.async_wait(boost::bind(&UpdateControl::UpdateLoop, this));
 		//m_prevTime = currentTime;
-		LOG_DEBUG(" ...... ");
+		float totalTime = captureTimeTaken + sampleTimeTaken + updateTimeTaken;
+		LOG_DEBUG(" ......total: " << totalTime << "ms");
 	}
 
 private:
