@@ -39,7 +39,7 @@ LEDController::LEDController() : m_isSetup(true), m_prevColorBuffer(0)
 	#endif
 }
 
-void LEDController::UpdateLeds(Color* colorBuffer)
+void LEDController::UpdateLeds(Color* colorBuffer, float deltaTime)
 {
 	if (!m_isSetup)
 		return;
@@ -53,7 +53,6 @@ void LEDController::UpdateLeds(Color* colorBuffer)
 	// That's why I split it up!
 
 	// Linear interpolation term for smoothness!
-	const float deltaTime = 33.3f;
 	float fadeTimeMS = Preferences::Instance->GetTotalFadeTimeMS();
 	if (fadeTimeMS < deltaTime)
 		fadeTimeMS = deltaTime;

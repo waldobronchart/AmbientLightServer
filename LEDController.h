@@ -15,7 +15,7 @@ public:
 		delete[] m_prevColorBuffer;
 	}
 
-	void UpdateLeds(Color* colorBuffer);
+	void UpdateLeds(Color* colorBuffer, float deltaTime);
 	void ShiftOut8Bits(int clockPin, int dataPin, char c);
 
 private:
