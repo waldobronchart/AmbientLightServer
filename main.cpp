@@ -6,6 +6,8 @@
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <time.h>
+#include <sys/timeb.h>
 
 #include "Logging.h"
 #include "Server.h"
@@ -24,33 +26,52 @@ CameraController* camControl;
 Preferences* prefs;
 TrapezoidSampler* sampler;
 
+using namespace boost::posix_time;
+
 class UpdateControl
 {
 public:
 	UpdateControl(asio::io_service& ioService) 
-		: m_timer(ioService, boost::posix_time::milliseconds(33))
+		: m_loopTimer(ioService, boost::posix_time::milliseconds(3)), m_colorBuffer(0)
 	{
 	}
 
-	void FrameUpdate33ms()
+	void UpdateLoop()
 	{
-		camControl->CaptureFrame();
+		// Calculate deltatime
+		ptime currentTime = microsec_clock::local_time();
+		float deltaTime = (currentTime - m_prevTime).total_milliseconds() / 1000.0f;
+		
+		// Capture frame and sample
+		float timeSinceLastCaptureMS = (currentTime - m_lastCaptureTime).total_milliseconds();
+		if (timeSinceLastCaptureMS >= 32)
+		{
+			LOG_DEBUG("  CAPTURE FRAME" << timeSinceLastCaptureMS);
+			
+			camControl->CaptureFrame();
+			m_colorBuffer = sampler->SampleFromImage(camControl->Frame());
+			m_lastCaptureTime = currentTime;
+		}
 
-		// Update leds
-		Color* colorBuffer = sampler->SampleFromImage(camControl->Frame());
-		ledControl->UpdateLeds(colorBuffer);
+		// Update leds and cleanup
+		LOG_DEBUG("             UPDATE LEDS" << deltaTime);
 
-		// Cleanup
-		if (colorBuffer != 0)
-			delete [] colorBuffer;
+		ledControl->UpdateLeds(m_colorBuffer, deltaTime);
+		if (m_colorBuffer != 0)
+			delete [] m_colorBuffer;
 
 		// Reset timer
-		m_timer.expires_at(m_timer.expires_at() + boost::posix_time::milliseconds(33));
-		m_timer.async_wait(boost::bind(&UpdateControl::FrameUpdate33ms, this));
+		m_loopTimer.expires_at(m_loopTimer.expires_at() + boost::posix_time::milliseconds(4));
+		m_loopTimer.async_wait(boost::bind(&UpdateControl::UpdateLoop, this));
+		m_prevTime = currentTime;
 	}
 
 private:
-	boost::asio::deadline_timer m_timer;
+	ptime m_prevTime;
+	ptime m_lastCaptureTime;
+
+	boost::asio::deadline_timer m_loopTimer;
+	Color* m_colorBuffer;
 };
 
 int main(int argc, char* argv[])
@@ -94,7 +115,7 @@ int main(int argc, char* argv[])
 
 		// UpdateControl updates the camera class 30 times a sec
 		UpdateControl ctrl(ioService);
-		ctrl.FrameUpdate33ms();
+		ctrl.UpdateLoop();
 
 		ioService.run();
 	}
