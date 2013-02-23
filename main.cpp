@@ -38,55 +38,31 @@ public:
 
 	void UpdateLoop()
 	{
-		/*
-		// Calculate deltatime
 		ptime currentTime = microsec_clock::local_time();
-		float deltaTime = (currentTime - m_prevTime).total_milliseconds() / 1000.0f;
-		
+		float deltaTime = (currentTime - m_prevTime).total_microseconds() / 1000000.0f; // to seconds
+
 		// Capture frame and sample
-		float timeSinceLastCaptureMS = (currentTime - m_lastCaptureTime).total_milliseconds();
-		if (timeSinceLastCaptureMS >= 32)
+		camControl->CaptureFrame();
+		m_colorBuffer = sampler->SampleFromImage(camControl->Frame());
+		
+		// Update leds
+		if (m_colorBuffer != 0)
 		{
-			LOG_DEBUG("  CAPTURE FRAME" << timeSinceLastCaptureMS);
-			
-			camControl->CaptureFrame();
-			m_colorBuffer = sampler->SampleFromImage(camControl->Frame());
-			m_lastCaptureTime = currentTime;
+			LOG_DEBUG("UpdateLeds deltaTime " << deltaTime << "s");
+			ledControl->UpdateLeds(m_colorBuffer, deltaTime);
+			delete [] m_colorBuffer;
+			m_colorBuffer = 0;
 		}
 
-		// Update leds and cleanup
-		LOG_DEBUG("             UPDATE LEDS" << deltaTime);*/
-
-		
-		ptime beforeCaptureTime = microsec_clock::local_time();
-		camControl->CaptureFrame();
-		float captureTimeTaken = (microsec_clock::local_time() - beforeCaptureTime).total_microseconds() / 1000.0f;
-		LOG_DEBUG("CaptureFrame took " << captureTimeTaken << "ms");
-		
-		ptime beforeSampleTime = microsec_clock::local_time();
-		m_colorBuffer = sampler->SampleFromImage(camControl->Frame());
-		float sampleTimeTaken = (microsec_clock::local_time() - beforeSampleTime).total_microseconds() / 1000.0f;
-		LOG_DEBUG("SampleFromImage took " << sampleTimeTaken << "ms");
-		
-		ptime beforeUpdateLeds = microsec_clock::local_time();
-		ledControl->UpdateLeds(m_colorBuffer, 0.33f);
-		float updateTimeTaken = (microsec_clock::local_time() - beforeUpdateLeds).total_microseconds() / 1000.0f;
-		LOG_DEBUG("UpdateLeds took " << updateTimeTaken << "ms");
-
-		if (m_colorBuffer != 0)
-			delete [] m_colorBuffer;
-
 		// Reset timer
-		m_loopTimer.expires_at(m_loopTimer.expires_at() + boost::posix_time::milliseconds(23));
+		m_loopTimer.expires_at(m_loopTimer.expires_at() + milliseconds(16));
 		m_loopTimer.async_wait(boost::bind(&UpdateControl::UpdateLoop, this));
-		//m_prevTime = currentTime;
-		float totalTime = captureTimeTaken + sampleTimeTaken + updateTimeTaken;
-		LOG_DEBUG(" ......total: " << totalTime << "ms");
+		m_prevTime = currentTime;
 	}
 
 private:
 	ptime m_prevTime;
-	ptime m_lastCaptureTime;
+	//ptime m_lastCaptureTime;
 
 	boost::asio::deadline_timer m_loopTimer;
 	Color* m_colorBuffer;
