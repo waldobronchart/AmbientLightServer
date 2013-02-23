@@ -48,7 +48,7 @@ public:
 		// Update leds
 		if (m_colorBuffer != 0)
 		{
-			LOG_DEBUG("UpdateLeds deltaTime " << deltaTime << "s");
+			LOG_TRACE("UpdateLeds deltaTime " << deltaTime << "s");
 			ledControl->UpdateLeds(m_colorBuffer, deltaTime);
 			delete [] m_colorBuffer;
 			m_colorBuffer = 0;
@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
 	try
 	{
 		// Logging setup
-		LogUtil::Setup(log4cplus::TRACE_LOG_LEVEL);
+		LogUtil::Setup(log4cplus::DEBUG_LOG_LEVEL);
 
 		// Setup controllers
 		prefs = new Preferences();
