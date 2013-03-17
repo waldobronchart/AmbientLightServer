@@ -24,6 +24,8 @@ public:
 			return false;
 		}
 
+		LOG_INFO("Processing MsgSetBounds message");
+
 		// Read bounds
 		Vector2 topLeft, topRight, bottomRight, bottomLeft;
 		json_t* vec;

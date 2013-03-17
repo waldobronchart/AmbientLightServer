@@ -41,17 +41,25 @@ public:
 		ptime currentTime = microsec_clock::local_time();
 		float deltaTime = (currentTime - m_prevTime).total_microseconds() / 1000000.0f; // to seconds
 
-		// Capture frame and sample
-		camControl->CaptureFrame();
-		m_colorBuffer = sampler->SampleFromImage(camControl->Frame());
-		
-		// Update leds
-		if (m_colorBuffer != 0)
+		Preferences* prefs = Preferences::Instance;
+		if (prefs->FixedColorEnabled)
 		{
-			LOG_TRACE("UpdateLeds deltaTime " << deltaTime << "s");
-			ledControl->UpdateLeds(m_colorBuffer, deltaTime);
-			delete [] m_colorBuffer;
-			m_colorBuffer = 0;
+			ledControl->UpdateLedsFixed(prefs->FixedColor, deltaTime);
+		}
+		else
+		{
+			// Capture frame and sample
+			camControl->CaptureFrame();
+			m_colorBuffer = sampler->SampleFromImage(camControl->Frame());
+		
+			// Update leds
+			if (m_colorBuffer != 0)
+			{
+				LOG_TRACE("UpdateLeds deltaTime " << deltaTime << "s");
+				ledControl->UpdateLeds(m_colorBuffer, deltaTime);
+				delete [] m_colorBuffer;
+				m_colorBuffer = 0;
+			}
 		}
 
 		// Reset timer

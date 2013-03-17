@@ -23,7 +23,8 @@ public:
 			LOG_ERROR("MsgSetColorSettings.Read: error on line " << error.line << ":" << error.text);
 			return false;
 		}
-
+		
+		LOG_INFO("Processing MsgSetColorSettings message");
 		Preferences* prefs = Preferences::Instance;
 
 		// TotalFadeTimeMS

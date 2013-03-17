@@ -92,6 +92,31 @@ void LEDController::UpdateLeds(Color* colorBuffer, float deltaTime)
 	#endif
 }
 
+void LEDController::UpdateLedsFixed(Color fixedColor, float deltaTime)
+{
+	// Update first strand of 25
+	for (int i=0; i<NUM_LEDS_PER_STRAND; ++i)
+	{
+		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, fixedColor.R);
+		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, fixedColor.G);
+		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, fixedColor.B);
+	}
+
+	// Update second strand of 25
+	for (int i=NUM_LEDS_PER_STRAND; i<TOTAL_NUM_LEDS; ++i)
+	{
+		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, fixedColor.R);
+		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, fixedColor.G);
+		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, fixedColor.B);
+	}
+	
+	#ifdef RASPBERRY_PI
+	digitalWrite(GPIO_CLOCK_PIN1, 0);
+	digitalWrite(GPIO_CLOCK_PIN2, 0);
+	delay(1);
+	#endif
+}
+
 void LEDController::ShiftOut8Bits(int clockPin, int dataPin, uint8_t c)
 {
 	#ifdef RASPBERRY_PI

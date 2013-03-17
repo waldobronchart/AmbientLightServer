@@ -16,6 +16,7 @@ public:
 	}
 
 	void UpdateLeds(Color* colorBuffer, float deltaTime);
+	void UpdateLedsFixed(Color fixedColor, float deltaTime);
 	void ShiftOut8Bits(int clockPin, int dataPin, uint8_t c);
 	void SetFadeTime(int fadeTime)
 	{
