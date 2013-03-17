@@ -1,5 +1,7 @@
 .idea
 *_ReSharper*
+preferences.json
+build
 
 #################
 ## Eclipse

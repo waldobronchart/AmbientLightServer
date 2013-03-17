@@ -12,10 +12,13 @@ void Preferences::Load()
 
 	// Load the file as json
 	json_error_t error;
-	json_t* root = json_load_file("prefs.txt", 0, &error);
+	json_t* root = json_load_file("preferences.json", 0, &error);
 	if (!root)
 	{
 		LOG_ERROR("Preferences.Load: error on line " << error.line << ":" << error.text);
+
+		// Call save once, this add new properties to the prefs file
+		Save();
 		return;
 	}
 
@@ -72,7 +75,7 @@ void Preferences::Save() const
 
 	// Write json to file
 	json_t* root = JsonEncode();
-	json_dump_file(root, "prefs.txt", 0);
+	json_dump_file(root, "preferences.json", JSON_INDENT(4));
 	json_decref(root);
 }
 

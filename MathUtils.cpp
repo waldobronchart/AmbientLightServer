@@ -41,11 +41,11 @@ Vector2 json_vector2_value(const json_t *root)
 
 	// Read X
 	json_t* jsonX = json_array_get(root, 0);
-	vec.X(json_real_value(jsonX));
+	vec.X((float)json_real_value(jsonX));
 
 	// Read Y
 	json_t* jsonY = json_array_get(root, 1);
-	vec.Y(json_real_value(jsonY));
+	vec.Y((float)json_real_value(jsonY));
 
 	return vec;
 }

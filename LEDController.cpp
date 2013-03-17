@@ -9,7 +9,7 @@ LEDController* LEDController::Instance = 0;
 
 // wiringPi only compiles on the RASPBERRY_PI
 #ifdef RASPBERRY_PI
-#include "wiringPi/wiringPi.h"
+#include <wiringPi.h>
 #endif
 
 LEDController::LEDController() : m_isSetup(true), m_fadeTimeMS(200), m_prevColorBuffer(0)

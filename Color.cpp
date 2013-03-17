@@ -37,7 +37,7 @@ bool json_is_color(const json_t *root)
 	if (!json_is_array(root))
 		return false;
 
-	if (json_array_size(root) != 2)
+	if (json_array_size(root) != 3)
 		return false;
 
 	for (int i=0; i<3; ++i)
