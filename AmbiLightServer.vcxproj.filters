@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="CameraController.cpp" />
+    <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Connection.cpp" />
+    <ClCompile Include="LEDController.cpp" />
+    <ClCompile Include="Logging.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MathUtils.cpp" />
+    <ClCompile Include="Preferences.cpp" />
+    <ClCompile Include="Server.cpp" />
+    <ClCompile Include="TrapezoidSampler.cpp" />
+    <ClCompile Include="NetOutgoingMessage.cpp">
+      <Filter>Messages</Filter>
+    </ClCompile>
+    <ClCompile Include="NetIncomingMessage.cpp">
+      <Filter>Messages</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CameraController.h" />
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="Connection.h" />
+    <ClInclude Include="HardwareConfig.h" />
+    <ClInclude Include="Logging.h" />
+    <ClInclude Include="MathUtils.h" />
+    <ClInclude Include="LEDController.h" />
+    <ClInclude Include="Preferences.h" />
+    <ClInclude Include="Server.h" />
+    <ClInclude Include="TrapezoidSampler.h" />
+    <ClInclude Include="MsgFrameBuffer.h">
+      <Filter>Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="MsgSetBounds.h">
+      <Filter>Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="MsgGenericRequest.h">
+      <Filter>Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="MsgGenericResponse.h">
+      <Filter>Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="MsgHandlerBase.h">
+      <Filter>Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="MsgPreferences.h">
+      <Filter>Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="NetOutgoingMessage.h">
+      <Filter>Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="NetMessageType.h">
+      <Filter>Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="NetIncomingMessage.h">
+      <Filter>Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="MsgSetColorSettings.h">
+      <Filter>Messages</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Messages">
+      <UniqueIdentifier>{a2ffd398-a7dc-42bc-a4cf-c208cc8e7fb0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -121,6 +121,7 @@ COPY "E:\Libraries\log4cplus\lib\Release_Unicode\log4cplusU.dll" "$(TargetDir)"<
     <ClInclude Include="LEDController.h" />
     <ClInclude Include="MsgPreferences.h" />
     <ClInclude Include="MsgSetBounds.h" />
+    <ClInclude Include="MsgSetColorSettings.h" />
     <ClInclude Include="NetIncomingMessage.h" />
     <ClInclude Include="NetMessageType.h" />
     <ClInclude Include="NetOutgoingMessage.h" />

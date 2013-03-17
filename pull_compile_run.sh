@@ -50,4 +50,4 @@ echo Exposure, Auto Priority
 uvcdynctrl -g "Exposure, Auto Priority"
 
 # Start the server
-sudo ./AmbiLightServer
+sudo ./build/AmbiLightServer

@@ -4,6 +4,7 @@
 
 #include "MsgGenericRequest.h"
 #include "MsgSetBounds.h"
+#include "MsgSetColorSettings.h"
 
 Connection::Connection(boost::asio::io_service& ioService) : m_socket(ioService)
 {
@@ -63,6 +64,10 @@ void Connection::HandleReadBody(const boost::system::error_code& error)
 
 	case MSG_SET_BOUNDS:
 		msgHandler = new MsgSetBounds();
+		break;
+
+	case MSG_SET_COLOR_SETTINGS:
+		msgHandler = new MsgSetColorSettings();
 		break;
 
 	default:

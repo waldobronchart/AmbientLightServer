@@ -55,14 +55,25 @@ public:
 		if (m_capture == 0)
 			return;
 
-		/*#if RASPBERRY_PI
-		saturation
-		#endif*/
+		double cvSaturation = (double)saturation;
+		double cvBrightness = (double)brightness;
+		double cvContrast = (double)contrast;
+		double cvGain = (double)gain;
+
+		// Gotcha! Raspberry pi expects values between 0 and 1
+		#if RASPBERRY_PI
+		cvSaturation /= 255;
+		cvBrightness /= 255;
+		cvContrast /= 255;
+		cvGain /= 255;
+		#endif
 		
-		/*cvSetCaptureProperty(m_capture, CV_CAP_PROP_SATURATION, saturation);
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_BRIGHTNESS, brightness);
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_CONTRAST, contrast);
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_GAIN, gain);*/
+		cvSetCaptureProperty(m_capture, CV_CAP_PROP_SATURATION, cvSaturation);
+		cvSetCaptureProperty(m_capture, CV_CAP_PROP_BRIGHTNESS, cvBrightness);
+		cvSetCaptureProperty(m_capture, CV_CAP_PROP_CONTRAST, cvContrast);
+		cvSetCaptureProperty(m_capture, CV_CAP_PROP_GAIN, cvGain);
+
+		// exposure doesn't work for me
 		//cvSetCaptureProperty(m_capture, CV_CAP_PROP_EXPOSURE, -4);
 	}
 

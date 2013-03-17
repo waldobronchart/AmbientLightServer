@@ -111,7 +111,7 @@ void Preferences::ReadColor(const json_t *root, const char* propertyName, Color&
 	if (json_is_color(jColor))
     {
 		dest = json_color_value(jColor);
-		LOG_DEBUG(" - " << propertyName << " = (" << dest.R << "," << dest.G << "," << dest.B << ")");
+		LOG_DEBUG(" - " << propertyName << " = (" << (int)dest.R << "," << (int)dest.G << "," << (int)dest.B << ")");
     }
 	else
 	{
@@ -179,7 +179,7 @@ void Preferences::ReadBool(const json_t *root, const char* propertyName, bool& d
 	if (json_is_boolean(jBool))
     {
 		dest = json_is_true(jBool);
-		LOG_DEBUG(" - " << propertyName << " = " << dest);
+		LOG_DEBUG(" - " << propertyName << " = " << (dest?"true":"false"));
     }
 	else
 	{

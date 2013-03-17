@@ -17,7 +17,7 @@ public:
 	Preferences() : TotalFadeTimeMS(200), 
 					BoundsTopLeft(0.2f, 0.2f), BoundsTopRight(0.8f, 0.2f), BoundsBottomRight(0.8f, 0.8f), BoundsBottomLeft(0.2f, 0.8f),
 					FixedColorEnabled(false), FixedColor(255, 0, 0),
-					CamSaturation(117), CamBrightness(30), CamContrast(74), CamGain(204)
+					CamSaturation(117), CamBrightness(30), CamContrast(74), CamGain(20)
 	{
 		Instance = this;
 	}
