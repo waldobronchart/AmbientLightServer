@@ -1,15 +1,18 @@
 #pragma once
 
+#include <stdint.h>
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
 
 #include "Logging.h"
 #include "MathUtils.h"
 #include "TrapezoidSampler.h"
+#include "HardwareConfig.h"
 
 #include <boost/timer/timer.hpp>
 using boost::timer::cpu_timer;
 
+// todo: ability to disconnect and reconnect camera
 class CameraController
 {
 public:
@@ -19,17 +22,10 @@ public:
 		: m_capture(0), m_frame(0)
 	{
 		m_capture = cvCaptureFromCAM(CV_CAP_ANY);
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_FPS, 30);
+		cvSetCaptureProperty(m_capture, CV_CAP_PROP_FPS, CAM_CAPTURE_FPS);
 
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_FRAME_WIDTH, 160);
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_FRAME_HEIGHT, 120);
-
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_BRIGHTNESS, 118/255.0);
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_CONTRAST, 30/255.0);
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_SATURATION, 73/255.0);
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_GAIN, 20/255.0);
-
-		//cvSetCaptureProperty(m_capture, CV_CAP_PROP_EXPOSURE, -4);
+		cvSetCaptureProperty(m_capture, CV_CAP_PROP_FRAME_WIDTH, CAM_CAPTURE_SIZE_WIDTH);
+		cvSetCaptureProperty(m_capture, CV_CAP_PROP_FRAME_HEIGHT, CAM_CAPTURE_SIZE_HEIGHT);
 
 		Instance = this;
 	}
@@ -41,7 +37,7 @@ public:
 
 	void CaptureFrame()
 	{
-		if (!m_capture)
+		if (m_capture == 0)
 			return;
 
 		m_frame = cvQueryFrame(m_capture);
@@ -52,6 +48,22 @@ public:
 	const IplImage* Frame()
 	{
 		return m_frame;
+	}
+
+	void UpdateSettings(uint8_t saturation, uint8_t brightness, uint8_t contrast, uint8_t gain)
+	{
+		if (m_capture == 0)
+			return;
+
+		/*#if RASPBERRY_PI
+		saturation
+		#endif*/
+		
+		/*cvSetCaptureProperty(m_capture, CV_CAP_PROP_SATURATION, saturation);
+		cvSetCaptureProperty(m_capture, CV_CAP_PROP_BRIGHTNESS, brightness);
+		cvSetCaptureProperty(m_capture, CV_CAP_PROP_CONTRAST, contrast);
+		cvSetCaptureProperty(m_capture, CV_CAP_PROP_GAIN, gain);*/
+		//cvSetCaptureProperty(m_capture, CV_CAP_PROP_EXPOSURE, -4);
 	}
 
 private:

@@ -45,7 +45,10 @@ public:
 			bottomLeft = json_vector2_value(vec);
 
 		// Set bounds
-		Preferences::Instance->SetBounds(topLeft, topRight, bottomRight, bottomLeft);
+		Preferences::Instance->BoundsTopLeft = topLeft;
+		Preferences::Instance->BoundsTopRight = topRight;
+		Preferences::Instance->BoundsBottomRight = bottomRight;
+		Preferences::Instance->BoundsBottomLeft = bottomLeft;
 		TrapezoidSampler::Instance->UpdatePoints(topLeft, topRight, bottomRight, bottomLeft);
 
 		// Cleanup

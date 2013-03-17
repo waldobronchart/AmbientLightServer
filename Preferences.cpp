@@ -20,17 +20,20 @@ void Preferences::Load()
 	}
 
 	// Read properties
-	ReadVector2(root, "boundsTopLeft", m_boundsTopLeft);
-	ReadVector2(root, "boundsTopRight", m_boundsTopRight);
-	ReadVector2(root, "boundsBottomRight", m_boundsBottomRight);
-	ReadVector2(root, "boundsBottomLeft", m_boundsBottomLeft);
+	ReadVector2(root, "boundsTopLeft", BoundsTopLeft);
+	ReadVector2(root, "boundsTopRight", BoundsTopRight);
+	ReadVector2(root, "boundsBottomRight", BoundsBottomRight);
+	ReadVector2(root, "boundsBottomLeft", BoundsBottomLeft);
 
-	ReadFloat(root, "totalFadeTimeMS", m_totalFadeTimeMS);
+	ReadInt(root, "totalFadeTimeMS", TotalFadeTimeMS);
 
-	ReadFloat(root, "camBrightness", m_camBrightness);
-	ReadFloat(root, "camContrast", m_camContrast);
-	ReadFloat(root, "camSaturation", m_camSaturation);
-	ReadFloat(root, "camGain", m_camGain);
+	ReadBool(root, "fixedColorEnabled", FixedColorEnabled);
+	ReadColor(root, "fixedColor", FixedColor);
+
+	ReadInt8(root, "camBrightness", CamBrightness);
+	ReadInt8(root, "camContrast", CamContrast);
+	ReadInt8(root, "camSaturation", CamSaturation);
+	ReadInt8(root, "camGain", CamGain);
 
 	// Cleanup
 	json_decref(root);
@@ -45,15 +48,20 @@ json_t* Preferences::JsonEncode() const
 	json_t* root = json_object();
 
 	// Add to root json object
-	json_object_set_new(root, "boundsTopLeft", json_vector2(m_boundsTopLeft));
-	json_object_set_new(root, "boundsTopRight", json_vector2(m_boundsTopRight));
-	json_object_set_new(root, "boundsBottomRight", json_vector2(m_boundsBottomRight));
-	json_object_set_new(root, "boundsBottomLeft", json_vector2(m_boundsBottomLeft));
-	json_object_set_new(root, "totalFadeTimeMS", json_real(m_totalFadeTimeMS));
-	json_object_set_new(root, "camBrightness", json_real(m_camBrightness));
-	json_object_set_new(root, "camContrast", json_real(m_camContrast));
-	json_object_set_new(root, "camSaturation", json_real(m_camSaturation));
-	json_object_set_new(root, "camGain", json_real(m_camGain));
+	json_object_set_new(root, "boundsTopLeft", json_vector2(BoundsTopLeft));
+	json_object_set_new(root, "boundsTopRight", json_vector2(BoundsTopRight));
+	json_object_set_new(root, "boundsBottomRight", json_vector2(BoundsBottomRight));
+	json_object_set_new(root, "boundsBottomLeft", json_vector2(BoundsBottomLeft));
+
+	json_object_set_new(root, "totalFadeTimeMS", json_integer(TotalFadeTimeMS));
+
+	json_object_set_new(root, "fixedColorEnabled", json_boolean(FixedColorEnabled));
+	json_object_set_new(root, "fixedColor", json_color(FixedColor));
+
+	json_object_set_new(root, "camBrightness", json_integer(CamBrightness));
+	json_object_set_new(root, "camContrast", json_integer(CamContrast));
+	json_object_set_new(root, "camSaturation", json_integer(CamSaturation));
+	json_object_set_new(root, "camGain", json_integer(CamGain));
 
 	return root;
 }
@@ -68,36 +76,13 @@ void Preferences::Save() const
 	json_decref(root);
 }
 
-void Preferences::GetBounds(Vector2& topLeft, Vector2& topRight, Vector2& bottomRight, Vector2& bottomLeft) const
-{
-	topLeft = m_boundsTopLeft;
-	topRight = m_boundsTopRight;
-	bottomRight = m_boundsBottomRight;
-	bottomLeft = m_boundsBottomLeft;
-}
-
-void Preferences::SetBounds(const Vector2& topLeft, const Vector2& topRight, const Vector2& bottomRight, const Vector2& bottomLeft)
-{
-	LOG_INFO("Preferences: bounds set");
-	LOG_DEBUG(" - m_boundsTopLeft = (" << topLeft.X() << "," << topLeft.Y() << ")");
-	LOG_DEBUG(" - m_boundsTopRight = (" << topRight.X() << "," << topRight.Y() << ")");
-	LOG_DEBUG(" - m_boundsBottomRight = (" << bottomRight.X() << "," << bottomRight.Y() << ")");
-	LOG_DEBUG(" - m_boundsBottomLeft = (" << bottomLeft.X() << "," << bottomLeft.Y() << ")");
-
-	m_boundsTopLeft = topLeft;
-	m_boundsTopRight = topRight;
-	m_boundsBottomRight = bottomRight;
-	m_boundsBottomLeft = bottomLeft;
-
-	Save();
-}
-
 void Preferences::ReadVector2(const json_t *root, const char* propertyName, Vector2& dest)
 {
 	json_t* jVec2 = json_object_get(root, propertyName);
 	if (!jVec2)
 	{
 		LOG_ERROR("Preferences.Load: '" << propertyName << "' does not exist");
+		return;
 	}
 
 	if (json_is_vector2(jVec2))
@@ -111,12 +96,33 @@ void Preferences::ReadVector2(const json_t *root, const char* propertyName, Vect
 	}
 }
 
+void Preferences::ReadColor(const json_t *root, const char* propertyName, Color& dest)
+{
+	json_t* jColor = json_object_get(root, propertyName);
+	if (!jColor)
+	{
+		LOG_ERROR("Preferences.Load: '" << propertyName << "' does not exist");
+		return;
+	}
+
+	if (json_is_color(jColor))
+    {
+		dest = json_color_value(jColor);
+		LOG_DEBUG(" - " << propertyName << " = (" << dest.R << "," << dest.G << "," << dest.B << ")");
+    }
+	else
+	{
+		LOG_ERROR("Preferences.Load: '" << propertyName << "' is not a color");
+	}
+}
+
 void Preferences::ReadInt(const json_t *root, const char* propertyName, int& dest)
 {
 	json_t* jInt = json_object_get(root, propertyName);
 	if (!jInt)
 	{
 		LOG_ERROR("Preferences.Load: '" << propertyName << "' does not exist");
+		return;
 	}
 
 	if (json_is_integer(jInt))
@@ -130,12 +136,20 @@ void Preferences::ReadInt(const json_t *root, const char* propertyName, int& des
 	}
 }
 
+void Preferences::ReadInt8(const json_t *root, const char* propertyName, uint8_t& dest)
+{
+	int i;
+	ReadInt(root, propertyName, i);
+	dest = (uint8_t)i;
+}
+
 void Preferences::ReadFloat(const json_t *root, const char* propertyName, float& dest)
 {
 	json_t* jReal = json_object_get(root, propertyName);
 	if (!jReal)
 	{
 		LOG_ERROR("Preferences.Load: '" << propertyName << "' does not exist");
+		return;
 	}
 
 	if (json_is_real(jReal))
@@ -146,5 +160,26 @@ void Preferences::ReadFloat(const json_t *root, const char* propertyName, float&
 	else
 	{
 		LOG_ERROR("Preferences.Load: '" << propertyName << "' is not a float");
+	}
+}
+
+
+void Preferences::ReadBool(const json_t *root, const char* propertyName, bool& dest)
+{
+	json_t* jBool = json_object_get(root, propertyName);
+	if (!jBool)
+	{
+		LOG_ERROR("Preferences.Load: '" << propertyName << "' does not exist");
+		return;
+	}
+
+	if (json_is_boolean(jBool))
+    {
+		dest = json_is_true(jBool);
+		LOG_DEBUG(" - " << propertyName << " = " << dest);
+    }
+	else
+	{
+		LOG_ERROR("Preferences.Load: '" << propertyName << "' is not a boolean");
 	}
 }

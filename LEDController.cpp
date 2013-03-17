@@ -7,11 +7,12 @@
 
 LEDController* LEDController::Instance = 0;
 
+// wiringPi only compiles on the RASPBERRY_PI
 #ifdef RASPBERRY_PI
 #include "wiringPi/wiringPi.h"
 #endif
 
-LEDController::LEDController() : m_isSetup(true), m_prevColorBuffer(0)
+LEDController::LEDController() : m_isSetup(true), m_fadeTimeMS(200), m_prevColorBuffer(0)
 {
 	LOG_INFO("LEDController: setting up with ClockPin1=" << GPIO_CLOCK_PIN1 << " DataPin1=" << GPIO_DATA_PIN1
 					<< " ClockPin2=" << GPIO_CLOCK_PIN2 << " DataPin2=" << GPIO_DATA_PIN2);
@@ -47,14 +48,15 @@ void LEDController::UpdateLeds(Color* colorBuffer, float deltaTime)
 	if (colorBuffer == 0)
 		return;
 
-	// I could have just attached the two strands together
-	//  making it one big strand of 50, which uses just on data and one clock pin
+	// This will update the led strands of 25 separately
+	// I could have just attached the two strands together making it
+	//  one big strand of 50, which uses just on data and one clock pin.
 	// But unfortunately I was getting a lot of noise at the end of strand
-	// That's why I split it up!
+	// That's why I split it up
 
 	// Linear interpolation term for smoothness!
 	float deltaTimeMS = deltaTime * 1000.0f;
-	float fadeTimeMS = Preferences::Instance->GetTotalFadeTimeMS();
+	float fadeTimeMS = (float)m_fadeTimeMS;
 	if (fadeTimeMS < deltaTimeMS)
 		fadeTimeMS = deltaTimeMS;
 	float lerpTerm = deltaTimeMS/fadeTimeMS;
@@ -90,7 +92,7 @@ void LEDController::UpdateLeds(Color* colorBuffer, float deltaTime)
 	#endif
 }
 
-void LEDController::ShiftOut8Bits(int clockPin, int dataPin, char c)
+void LEDController::ShiftOut8Bits(int clockPin, int dataPin, uint8_t c)
 {
 	#ifdef RASPBERRY_PI
 	for (int bit = 0; bit < 8; bit++)

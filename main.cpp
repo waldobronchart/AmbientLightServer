@@ -81,18 +81,15 @@ int main(int argc, char* argv[])
 
 		// LED controller setup
 		ledControl = new LEDController();
+		ledControl->SetFadeTime(prefs->TotalFadeTimeMS);
 
 		// Camera controller setup
 		camControl = new CameraController();
-
-		// Get preferences
-		Vector2 topLeft, topRight, bottomRight, bottomLeft;
-		prefs->GetBounds(topLeft, topRight, bottomRight, bottomLeft);
+		camControl->UpdateSettings(prefs->CamSaturation, prefs->CamBrightness, prefs->CamContrast, prefs->CamGain);
 
 		// Sampler setup
-		// todo: setsize from preferences
 		sampler = new TrapezoidSampler();
-		sampler->UpdatePoints(topLeft, topRight, bottomRight, bottomLeft);
+		sampler->UpdatePoints(prefs->BoundsTopLeft, prefs->BoundsTopRight, prefs->BoundsBottomRight, prefs->BoundsBottomLeft);
 
 		// Port
 		unsigned short port = 13555;
