@@ -58,7 +58,7 @@ json_t* Preferences::JsonEncode() const
 
 	json_object_set_new(root, "totalFadeTimeMS", json_integer(TotalFadeTimeMS));
 
-	json_object_set_new(root, "fixedColorEnabled", json_boolean(FixedColorEnabled));
+	json_object_set_new(root, "fixedColorEnabled", FixedColorEnabled ? json_true() : json_false());
 	json_object_set_new(root, "fixedColor", json_color(FixedColor));
 
 	json_object_set_new(root, "camBrightness", json_integer(CamBrightness));
