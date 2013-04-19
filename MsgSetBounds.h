@@ -53,6 +53,9 @@ public:
 		Preferences::Instance->BoundsBottomLeft = bottomLeft;
 		TrapezoidSampler::Instance->UpdatePoints(topLeft, topRight, bottomRight, bottomLeft);
 
+		// Save
+		Preferences::Instance->Save();
+
 		// Cleanup
 		json_decref(root);
 

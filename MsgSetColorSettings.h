@@ -61,6 +61,9 @@ public:
 		// Update camera
 		CameraController::Instance->UpdateSettings(prefs->CamSaturation, prefs->CamBrightness, prefs->CamContrast, prefs->CamGain);
 
+		// Save
+		prefs->Save();
+
 		// Cleanup
 		json_decref(root);
 
