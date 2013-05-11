@@ -71,6 +71,7 @@ json_t* Preferences::JsonEncode() const
 
 void Preferences::Save() const
 {
+	// todo: save in executable dir
 	LOG_INFO("Saving Preferences");
 
 	// Write json to file
@@ -111,7 +112,7 @@ void Preferences::ReadColor(const json_t *root, const char* propertyName, Color&
 	if (json_is_color(jColor))
     {
 		dest = json_color_value(jColor);
-		LOG_DEBUG(" - " << propertyName << " = (" << (int)dest.R << "," << (int)dest.G << "," << (int)dest.B << ")");
+		LOG_DEBUG(" - " << propertyName << " = (" << dest.R() << "," << dest.G() << "," << dest.B() << ")");
     }
 	else
 	{

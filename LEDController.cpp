@@ -66,9 +66,9 @@ void LEDController::UpdateLeds(Color* colorBuffer, float deltaTime)
 	{
 		Color color = lerpColor(m_prevColorBuffer[i], colorBuffer[i], lerpTerm);
 
-		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, color.R);
-		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, color.G);
-		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, color.B);
+		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, color.ByteR());
+		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, color.ByteG());
+		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, color.ByteB());
 
 		m_prevColorBuffer[i] = color;
 	}
@@ -78,9 +78,9 @@ void LEDController::UpdateLeds(Color* colorBuffer, float deltaTime)
 	{
 		Color color = lerpColor(m_prevColorBuffer[i], colorBuffer[i], lerpTerm);
 
-		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, color.R);
-		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, color.G);
-		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, color.B);
+		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, color.ByteR());
+		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, color.ByteG());
+		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, color.ByteB());
 
 		m_prevColorBuffer[i] = color;
 	}
@@ -97,17 +97,17 @@ void LEDController::UpdateLedsFixed(Color fixedColor, float deltaTime)
 	// Update first strand of 25
 	for (int i=0; i<NUM_LEDS_PER_STRAND; ++i)
 	{
-		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, fixedColor.R);
-		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, fixedColor.G);
-		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, fixedColor.B);
+		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, fixedColor.ByteR());
+		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, fixedColor.ByteG());
+		ShiftOut8Bits(GPIO_CLOCK_PIN1, GPIO_DATA_PIN1, fixedColor.ByteB());
 	}
 
 	// Update second strand of 25
 	for (int i=NUM_LEDS_PER_STRAND; i<TOTAL_NUM_LEDS; ++i)
 	{
-		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, fixedColor.R);
-		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, fixedColor.G);
-		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, fixedColor.B);
+		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, fixedColor.ByteR());
+		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, fixedColor.ByteG());
+		ShiftOut8Bits(GPIO_CLOCK_PIN2, GPIO_DATA_PIN2, fixedColor.ByteB());
 	}
 	
 	#ifdef RASPBERRY_PI

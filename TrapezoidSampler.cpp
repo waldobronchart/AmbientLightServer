@@ -111,10 +111,12 @@ Color* TrapezoidSampler::SampleFromImage(const IplImage* frame)
 		int pixelOffset = (int)(samplePoint.X()) +  ((int)(samplePoint.Y()) * frame->width);
 		pixelOffset *= 3;
 
-		// OpenCV's color format is [Green,Blue,Red]
-		Color c = Color(frameBuffer[pixelOffset+2], frameBuffer[pixelOffset+1], frameBuffer[pixelOffset]);
+		// OpenCV's color format is (Green,Blue,Red)
+		float r = frameBuffer[pixelOffset+2]/255.0f;
+		float g = frameBuffer[pixelOffset+1]/255.0f;
+		float b = frameBuffer[pixelOffset]/255.0f;
 
-		colorBuffer[colorIndex] = c;
+		colorBuffer[colorIndex] = Color(r, g, b);
 		colorIndex++;
 	}
 
