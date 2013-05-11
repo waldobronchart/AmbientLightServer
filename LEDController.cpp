@@ -56,10 +56,13 @@ void LEDController::UpdateLeds(Color* colorBuffer, float deltaTime)
 
 	// Linear interpolation term for smoothness!
 	float deltaTimeMS = deltaTime * 1000.0f;
-	float fadeTimeMS = (float)m_fadeTimeMS;
+	float fadeTimeMS = m_fadeTimeMS;
 	if (fadeTimeMS < deltaTimeMS)
 		fadeTimeMS = deltaTimeMS;
 	float lerpTerm = deltaTimeMS/fadeTimeMS;
+
+	Color colorr = lerpColor(Color(1, 0, 0), Color(0, 0, 1), lerpTerm);
+	LOG_DEBUG("    COLOR: term(" << lerpTerm << ") " << colorr.ByteR() << " " << colorr.ByteG() << " " << colorr.ByteB());
 
 	// Update first strand of 25
 	for (int i=0; i<NUM_LEDS_PER_STRAND; ++i)
