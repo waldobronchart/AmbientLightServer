@@ -7,11 +7,11 @@
 struct Color
 {
 	Color() : m_r(0), m_g(0), m_b(0) {}
-	Color(float r, float g, float b) : m_r(clamp(0, 1, r)), m_g(clamp(0, 1, g)), m_b(clamp(0, 1, b)) {}
+	Color(float r, float g, float b) : m_r(clamp(r, 0, 1)), m_g(clamp(g, 0, 1)), m_b(clamp(b, 0, 1)) {}
 	
-	void R(float r) { m_r = clamp(0, 1, r); }
-	void G(float g) { m_g = clamp(0, 1, g); }
-	void B(float b) { m_b = clamp(0, 1, b); }
+	void R(float r) { m_r = clamp(r, 0, 1); }
+	void G(float g) { m_g = clamp(g, 0, 1); }
+	void B(float b) { m_b = clamp(b, 0, 1); }
 
 	float R() const { return m_r; }
 	float G() const { return m_g; }

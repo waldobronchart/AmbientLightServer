@@ -99,23 +99,6 @@ int main(int argc, char* argv[])
 		sampler = new TrapezoidSampler();
 		sampler->UpdatePoints(prefs->BoundsTopLeft, prefs->BoundsTopRight, prefs->BoundsBottomRight, prefs->BoundsBottomLeft);
 
-
-
-
-		float term = 16/200.0f;
-		Color color = Color(1, 0, 0);
-		int i = 0;
-		while (i < 100)
-		{
-			i++;
-			
-			color = lerpColor(color, Color(0, 0, 1), term);
-			//LOG_DEBUG("    COLOR: (" << i << ") " << color.R << " " << color.G << " " << color.B);
-			LOG_DEBUG("    COLOR: (" << i << ") " << color.ByteR() << " " << color.ByteG() << " " << color.ByteB());
-		}
-
-
-
 		// Port
 		unsigned short port = 13555;
 		if (argc == 2)
