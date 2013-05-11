@@ -62,7 +62,7 @@ void LEDController::UpdateLeds(Color* colorBuffer, float deltaTime)
 	float lerpTerm = deltaTimeMS/fadeTimeMS;
 
 	Color colorr = lerpColor(Color(1, 0, 0), Color(0, 0, 1), lerpTerm);
-	LOG_DEBUG("    COLOR: term(" << lerpTerm << ") " << colorr.ByteR() << " " << colorr.ByteG() << " " << colorr.ByteB());
+	LOG_DEBUG("    COLOR: term(" << lerpTerm << ") " << (int)colorr.ByteR() << " " << (int)colorr.ByteG() << " " << (int)colorr.ByteB());
 
 	// Update first strand of 25
 	for (int i=0; i<NUM_LEDS_PER_STRAND; ++i)
