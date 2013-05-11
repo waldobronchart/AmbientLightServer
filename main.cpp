@@ -32,7 +32,8 @@ class UpdateControl
 {
 public:
 	UpdateControl(asio::io_service& ioService) 
-		: m_loopTimer(ioService, boost::posix_time::milliseconds(3)), m_colorBuffer(0)
+		: m_loopTimer(ioService, boost::posix_time::milliseconds(3)), m_colorBuffer(0),
+		  m_debugCumulativeDeltaTime(0), m_debugFPS(0)
 	{
 	}
 
@@ -40,6 +41,7 @@ public:
 	{
 		ptime currentTime = microsec_clock::local_time();
 		float deltaTime = (currentTime - m_prevTime).total_microseconds() / 1000000.0f; // to seconds
+		if (deltaTime > 1) deltaTime = 0;
 
 		Preferences* prefs = Preferences::Instance;
 		if (prefs->FixedColorEnabled)
@@ -66,11 +68,26 @@ public:
 		m_loopTimer.expires_at(m_loopTimer.expires_at() + milliseconds(16));
 		m_loopTimer.async_wait(boost::bind(&UpdateControl::UpdateLoop, this));
 		m_prevTime = currentTime;
+
+		// Debugging: output average deltaTime every second
+		m_debugCumulativeDeltaTime += deltaTime;
+		if (deltaTime > 0) m_debugFPS++;
+
+		if (m_debugCumulativeDeltaTime >= 1)
+		{
+			float averageDeltaTimeMS = (m_debugCumulativeDeltaTime / m_debugFPS) * 1000.0f;
+			LOG_DEBUG("Average deltaTime: " << averageDeltaTimeMS << "ms (" << m_debugFPS << " FPS)");
+
+			m_debugCumulativeDeltaTime = 0;
+			m_debugFPS = 0;
+		}
 	}
 
 private:
 	ptime m_prevTime;
-	//ptime m_lastCaptureTime;
+
+	float m_debugCumulativeDeltaTime;
+	int m_debugFPS;
 
 	boost::asio::deadline_timer m_loopTimer;
 	Color* m_colorBuffer;

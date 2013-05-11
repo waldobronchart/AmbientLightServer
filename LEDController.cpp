@@ -50,17 +50,14 @@ void LEDController::UpdateLeds(Color* colorBuffer, float deltaTime, float fadeTi
 	// This will update the led strands of 25 separately
 	// I could have just attached the two strands together making it
 	//  one big strand of 50, which uses just on data and one clock pin.
-	// But unfortunately I was getting a lot of noise at the end of strand
-	// That's why I split it up
+	// But unfortunately I was getting a lot of noise at the end of the 
+	//  strand, so I split it up
 
 	// Linear interpolation term for smoothness!
 	float deltaTimeMS = deltaTime * 1000.0f;
 	if (fadeTimeMS < deltaTimeMS)
 		fadeTimeMS = deltaTimeMS;
 	float lerpTerm = deltaTimeMS/fadeTimeMS;
-
-	Color colorr = lerpColor(Color(1, 0, 0), Color(0, 0, 1), lerpTerm);
-	LOG_DEBUG("    COLOR: fadeTime(" << (int)fadeTimeMS << ") term(" << lerpTerm << ") " << (int)colorr.ByteR() << " " << (int)colorr.ByteG() << " " << (int)colorr.ByteB());
 
 	// Update first strand of 25
 	for (int i=0; i<NUM_LEDS_PER_STRAND; ++i)
