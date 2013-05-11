@@ -32,7 +32,7 @@ public:
 			unsigned int pixelData = 0;
 			for (int channel=0; channel<3; channel++)
 			{
-				char channelData = frameBuffer[(pixel*3)+channel];
+				unsigned int channelData = (unsigned int)frameBuffer[(pixel*3)+channel];
 				pixelData |= channelData << (8*channel);
 			}
 

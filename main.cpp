@@ -114,7 +114,7 @@ int main(int argc, char* argv[])
 		// Sampler setup
 		sampler = new TrapezoidSampler();
 		sampler->UpdatePoints(prefs->BoundsTopLeft, prefs->BoundsTopRight, prefs->BoundsBottomRight, prefs->BoundsBottomLeft);
-
+		
 		// Port
 		unsigned short port = 13555;
 		if (argc == 2)
