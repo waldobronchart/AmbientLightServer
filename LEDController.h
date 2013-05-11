@@ -15,16 +15,11 @@ public:
 		delete[] m_prevColorBuffer;
 	}
 
-	void UpdateLeds(Color* colorBuffer, float deltaTime);
+	void UpdateLeds(Color* colorBuffer, float deltaTime, float fadeTimeMS);
 	void UpdateLedsFixed(Color fixedColor, float deltaTime);
 	void ShiftOut8Bits(int clockPin, int dataPin, uint8_t c);
-	void SetFadeTime(int fadeTime)
-	{
-		m_fadeTimeMS = fadeTime;
-	}
 
 private:
 	bool m_isSetup;
-	int m_fadeTimeMS;
 	Color *m_prevColorBuffer;
 };

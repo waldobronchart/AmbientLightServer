@@ -1,6 +1,5 @@
 #include "LEDController.h"
 #include "Logging.h"
-#include "Preferences.h"
 #include "HardwareConfig.h"
 
 #include <boost/timer.hpp>
@@ -12,7 +11,7 @@ LEDController* LEDController::Instance = 0;
 #include <wiringPi.h>
 #endif
 
-LEDController::LEDController() : m_isSetup(true), m_fadeTimeMS(200), m_prevColorBuffer(0)
+LEDController::LEDController() : m_isSetup(true), m_prevColorBuffer(0)
 {
 	LOG_INFO("LEDController: setting up with ClockPin1=" << GPIO_CLOCK_PIN1 << " DataPin1=" << GPIO_DATA_PIN1
 					<< " ClockPin2=" << GPIO_CLOCK_PIN2 << " DataPin2=" << GPIO_DATA_PIN2);
@@ -40,7 +39,7 @@ LEDController::LEDController() : m_isSetup(true), m_fadeTimeMS(200), m_prevColor
 	#endif
 }
 
-void LEDController::UpdateLeds(Color* colorBuffer, float deltaTime)
+void LEDController::UpdateLeds(Color* colorBuffer, float deltaTime, float fadeTimeMS)
 {
 	if (!m_isSetup)
 		return;
@@ -56,13 +55,12 @@ void LEDController::UpdateLeds(Color* colorBuffer, float deltaTime)
 
 	// Linear interpolation term for smoothness!
 	float deltaTimeMS = deltaTime * 1000.0f;
-	float fadeTimeMS = m_fadeTimeMS;
 	if (fadeTimeMS < deltaTimeMS)
 		fadeTimeMS = deltaTimeMS;
 	float lerpTerm = deltaTimeMS/fadeTimeMS;
 
 	Color colorr = lerpColor(Color(1, 0, 0), Color(0, 0, 1), lerpTerm);
-	LOG_DEBUG("    COLOR: term(" << lerpTerm << ") " << (int)colorr.ByteR() << " " << (int)colorr.ByteG() << " " << (int)colorr.ByteB());
+	LOG_DEBUG("    COLOR: fadeTime(" << (int)fadeTimeMS << ") term(" << lerpTerm << ") " << (int)colorr.ByteR() << " " << (int)colorr.ByteG() << " " << (int)colorr.ByteB());
 
 	// Update first strand of 25
 	for (int i=0; i<NUM_LEDS_PER_STRAND; ++i)

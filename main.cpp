@@ -56,7 +56,7 @@ public:
 			if (m_colorBuffer != 0)
 			{
 				LOG_TRACE("UpdateLeds deltaTime " << deltaTime << "s");
-				ledControl->UpdateLeds(m_colorBuffer, deltaTime);
+				ledControl->UpdateLeds(m_colorBuffer, deltaTime, (float)prefs->TotalFadeTimeMS);
 				delete [] m_colorBuffer;
 				m_colorBuffer = 0;
 			}
@@ -89,7 +89,6 @@ int main(int argc, char* argv[])
 
 		// LED controller setup
 		ledControl = new LEDController();
-		ledControl->SetFadeTime(prefs->TotalFadeTimeMS);
 
 		// Camera controller setup
 		camControl = new CameraController();
