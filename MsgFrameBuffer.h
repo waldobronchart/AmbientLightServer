@@ -11,7 +11,7 @@ class MsgFrameBuffer : public MsgHandlerBase
 public:
 	virtual NetOutgoingMessage* Write()
 	{
-		const IplImage* frame = CameraController::Instance->Frame();
+		/*const IplImage* frame = CameraController::Instance->Frame();
 
 		// If frame is null, just send a generic error response
 		if (frame == 0)
@@ -58,6 +58,7 @@ public:
 		// Cleanup
 		json_decref(root);
 
-		return msg;
+		return msg;*/
+		return 0;
 	}
 };

@@ -53,7 +53,7 @@ public:
 			// Capture frame and sample
 			camControl->CaptureFrame();
 			m_colorBuffer = sampler->SampleFromImage(camControl->Frame());
-		
+				
 			// Update leds
 			if (m_colorBuffer != 0)
 			{
@@ -65,7 +65,7 @@ public:
 		}
 
 		// Reset timer
-		m_loopTimer.expires_at(m_loopTimer.expires_at() + milliseconds(16));
+		m_loopTimer.expires_at(m_loopTimer.expires_at() + milliseconds(1));
 		m_loopTimer.async_wait(boost::bind(&UpdateControl::UpdateLoop, this));
 		m_prevTime = currentTime;
 

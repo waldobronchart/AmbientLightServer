@@ -1,8 +1,9 @@
 #pragma once
 
 #include <stdint.h>
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
+
+#include <opencv2/core/core.hpp>
+using namespace cv;
 
 #include "Logging.h"
 #include "MathUtils.h"
@@ -19,40 +20,41 @@ public:
 	static CameraController* Instance;
 
 	CameraController()
-		: m_capture(0), m_frame(0)
 	{
-		m_capture = cvCaptureFromCAM(CV_CAP_ANY);
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_FPS, CAM_CAPTURE_FPS);
+		m_videoCapture.open(0);
 
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_FRAME_WIDTH, CAM_CAPTURE_SIZE_WIDTH);
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_FRAME_HEIGHT, CAM_CAPTURE_SIZE_HEIGHT);
+		m_videoCapture.set(CV_CAP_PROP_FPS, CAM_CAPTURE_FPS);
+		m_videoCapture.set(CV_CAP_PROP_FRAME_WIDTH, CAM_CAPTURE_SIZE_WIDTH);
+		m_videoCapture.set(CV_CAP_PROP_FRAME_HEIGHT, CAM_CAPTURE_SIZE_HEIGHT);
+		m_videoCapture.set(CV_CAP_PROP_EXPOSURE, -6); // range is [-8:-2] for Logitech C250
 
 		Instance = this;
 	}
 
 	~CameraController()
 	{
-		cvReleaseCapture(&m_capture);
+		m_videoCapture.release();
 	}
 
 	void CaptureFrame()
 	{
-		if (m_capture == 0)
+		if (!m_videoCapture.isOpened())
+		{
+			m_videoCapture.open(0);
 			return;
+		}
 
-		m_frame = cvQueryFrame(m_capture);
-		if (!m_frame)
-			return;
+		m_videoCapture >> m_image;
 	}
 
-	const IplImage* Frame()
+	const Mat& Frame()
 	{
-		return m_frame;
+		return m_image;
 	}
 
 	void UpdateSettings(uint8_t saturation, uint8_t brightness, uint8_t contrast, uint8_t gain)
 	{
-		if (m_capture == 0)
+		if (!m_videoCapture.isOpened())
 			return;
 
 		double cvSaturation = (double)saturation;
@@ -67,17 +69,16 @@ public:
 		cvContrast /= 255;
 		cvGain /= 255;
 		#endif
-		
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_SATURATION, cvSaturation);
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_BRIGHTNESS, cvBrightness);
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_CONTRAST, cvContrast);
-		cvSetCaptureProperty(m_capture, CV_CAP_PROP_GAIN, cvGain);
 
-		// exposure doesn't work for me
-		//cvSetCaptureProperty(m_capture, CV_CAP_PROP_EXPOSURE, -4);
+		m_videoCapture.set(CV_CAP_PROP_SATURATION, cvSaturation);
+		m_videoCapture.set(CV_CAP_PROP_BRIGHTNESS, cvBrightness);
+		m_videoCapture.set(CV_CAP_PROP_CONTRAST, cvContrast);
+		m_videoCapture.set(CV_CAP_PROP_GAIN, cvGain);
+
+		//m_videoCapture.set(CV_CAP_PROP_EXPOSURE, -6);
 	}
 
 private:
-	CvCapture* m_capture;
-	IplImage* m_frame;
+	VideoCapture m_videoCapture;
+	Mat m_image;
 };

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include <opencv/cv.h>
+#include <opencv2/opencv.hpp>
 
 #include "MathUtils.h"
 #include "Color.h"
@@ -39,7 +39,7 @@ public:
 	void SetSize(short rows, short cols);
 	void UpdatePoints(Vector2 topLeft, Vector2 topRight, Vector2 bottomRight, Vector2 bottomLeft);
 	void UpdateColorSettings(bool fixedColorEnabled, float hue, float staturation, float brightness);
-	Color* SampleFromImage(const IplImage* frame);
+	Color* SampleFromImage(const cv::Mat& frame);
 	int NumLeds() { return m_rows * 2 + m_cols * 2; }
 	
 private:

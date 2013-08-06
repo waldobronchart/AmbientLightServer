@@ -84,12 +84,9 @@ void TrapezoidSampler::UpdatePoints(Vector2 topLeft, Vector2 topRight, Vector2 b
 	UpdateSamplerAreas();
 }
 
-Color* TrapezoidSampler::SampleFromImage(const IplImage* frame)
+Color* TrapezoidSampler::SampleFromImage(const cv::Mat& frame)
 {
-	if (frame == 0)
-		return 0;
-
-	if (frame->imageData == 0)
+	if (frame.data == 0)
 		return 0;
 
 	if (NumLeds() == 0)
@@ -98,8 +95,8 @@ Color* TrapezoidSampler::SampleFromImage(const IplImage* frame)
 		return 0;
 	}
 
-	Vector2 frameSize = Vector2((float)frame->width, (float)frame->height);
-	char *frameBuffer = frame->imageData;
+	Vector2 frameSize = Vector2((float)frame.cols, (float)frame.rows);
+	uchar *frameBuffer = frame.data;
 	Color *colorBuffer = new Color[NumLeds()];
 
 	int colorIndex = 0;
@@ -108,10 +105,10 @@ Color* TrapezoidSampler::SampleFromImage(const IplImage* frame)
 		TrapezoidSampleArea area = *i;
 
 		Vector2 samplePoint = area.Center() * frameSize;
-		int pixelOffset = (int)(samplePoint.X()) +  ((int)(samplePoint.Y()) * frame->width);
+		int pixelOffset = (int)(samplePoint.X()) +  ((int)(samplePoint.Y()) * frame.cols);
 		pixelOffset *= 3;
 
-		// OpenCV's color format is (Green,Blue,Red)
+		// OpenCV's color format is (Green, Blue, Red)
 		float r = frameBuffer[pixelOffset+2]/255.0f;
 		float g = frameBuffer[pixelOffset+1]/255.0f;
 		float b = frameBuffer[pixelOffset]/255.0f;
