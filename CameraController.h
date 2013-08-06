@@ -11,6 +11,7 @@ using namespace cv;
 #include "HardwareConfig.h"
 
 #include <boost/timer/timer.hpp>
+#include <boost/thread.hpp>
 using boost::timer::cpu_timer;
 
 // todo: ability to disconnect and reconnect camera
@@ -26,6 +27,9 @@ public:
 		m_videoCapture.set(CV_CAP_PROP_FPS, CAM_CAPTURE_FPS);
 		m_videoCapture.set(CV_CAP_PROP_FRAME_WIDTH, CAM_CAPTURE_SIZE_WIDTH);
 		m_videoCapture.set(CV_CAP_PROP_FRAME_HEIGHT, CAM_CAPTURE_SIZE_HEIGHT);
+
+		boost::this_thread::sleep(boost::posix_time::milliseconds(2000));
+
 		m_videoCapture.set(CV_CAP_PROP_EXPOSURE, -6); // range is [-8:-2] for Logitech C250
 
 		Instance = this;
