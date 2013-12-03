@@ -38,10 +38,10 @@ If you're going to be ssh'ing, I'd recommend setting up a static IP too:
 
 It's probably also best to create some swap space in case we run out of memory while compiling:
 
-	cd ~
-	fallocate -l 512M /swapfile
-	mkswap /swapfile
-	swapon /swapfile
+    cd ~
+    fallocate -l 512M /swapfile
+    mkswap /swapfile
+    swapon /swapfile
 
 ### Get all updates for Arch linux and installing build tools
 
@@ -56,50 +56,51 @@ The second like installs the needed build tools we need to compile AmbiLightServ
 
 Clone this git repo or your fork to your home folder (default /root/).
 
-	cd ~
-	git clone https://github.com/waldobronchart/AmbientLightServer (or your own fork)
+    cd ~
+    git clone https://github.com/waldobronchart/AmbientLightServer (or your own fork)
 
 Install all prerequisites. 
 
-	# Jannson: JSON library used for serialisation
-	pacman -S jansson
+    # Jannson: JSON library used for serialisation
+    pacman -S jansson
 
-	# Log4Cplus: logging library
-	#  have a coffee because this will take 25-30mins
-	#  it might also install to /usr/local/lib instead of /usr/lib
-	cd ~
-	wget http://downloads.sourceforge.net/project/log4cplus/log4cplus-stable/1.1.2/log4cplus-1.1.2-rc2.tar.gz
-	tar -zxvf log4cplus-1.1.2-rc2.tar.gz
-	rm log4cplus-1.1.2-rc2.tar.gz
-	cd log4cplus-1.1.2-rc2
-	./configure
-	make
-	make install
+    # Log4Cplus: logging library
+    #  have a coffee because this will take 25-30mins
+    #  it might also install to /usr/local/lib instead of /usr/lib
+    cd ~
+    wget http://downloads.sourceforge.net/project/log4cplus/log4cplus-stable/1.1.2/log4cplus-1.1.2-rc2.tar.gz
+    tar -zxvf log4cplus-1.1.2-rc2.tar.gz
+    rm log4cplus-1.1.2-rc2.tar.gz
+    cd log4cplus-1.1.2-rc2
+    ./configure
+    make
+    make install
 
-	# Boost: used for network communication and update loop timers
-	pacman -S boost
+    # Boost: used for network communication and update loop timers
+    pacman -S boost
 
-	# WiringPi: library to interface with the output pins
-	pacman -S wiringpi
+    # WiringPi: library to interface with the output pins
+    pacman -S wiringpi
 
-	# OpenCV: used for capturing frames from the webcam
-	cd ~
-	wget http://downloads.sourceforge.net/project/opencvlibrary/opencv-unix/2.4.7/opencv-2.4.7.tar.gz
-	tar -zxvf opencv-2.4.7.tar.gz
-	rm opencv-2.4.7.tar.gz
-	cd opencv-2.4.7
-	./configure
-	make
-	make install
+    # OpenCV: used for capturing frames from the webcam
+    cd ~
+    wget http://downloads.sourceforge.net/project/opencvlibrary/opencv-unix/2.4.7/opencv-2.4.7.tar.gz
+    tar -zxvf opencv-2.4.7.tar.gz
+    rm opencv-2.4.7.tar.gz
+    cd opencv-2.4.7
+    ./configure
+    make
+    make install
 
 OpenCV doesn't currently allow turning off Auto Exposure on the camera, so I currently hackily do it with `uvcdynctrl`. It doesn't seem to be present on arch linux by default, so you'll need to install that too (included in libwebcam).
 
-	wget http://downloads.sourceforge.net/project/libwebcam/source/libwebcam-src-0.2.4.tar.gz  
-	tar -zxvf libwebcam-src-0.2.4.tar.gz 
-	cd build
-	cmake ..
-	make
-	make install
+    wget http://downloads.sourceforge.net/project/libwebcam/source/libwebcam-src-0.2.4.tar.gz  
+    tar -zxvf libwebcam-src-0.2.4.tar.gz 
+    cd libwebcam-src-0.2.4
+    cd build
+    cmake ..
+    make
+    make install
 
 I should actually stop using OpenCV and use libwebcam directly, but I'm lazy and it works just fine :).
 
@@ -107,9 +108,9 @@ I should actually stop using OpenCV and use libwebcam directly, but I'm lazy and
 
 This takes about 10mins:
 
-	cd ~/AmbiLightServer/
-	mkdir build
-	make
+    cd ~/AmbiLightServer/
+    mkdir build
+    make
 
 Once built, use `sh run.sh` to start the server.
 
