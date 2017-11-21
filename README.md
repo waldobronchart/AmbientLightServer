@@ -7,8 +7,8 @@ The sampling region and other camera properties can be controlled by a separate 
 
 A video of the project and details on how I built it can be found on my blog: 
 
-* [http://waldobronchart.be/639/ambient-light-tv-with-a-raspberry-pi-part1/](http://waldobronchart.be/639/ambient-light-tv-with-a-raspberry-pi-part1/)
-* [http://waldobronchart.be/719/ambient-light-tv-with-a-raspberry-pi-and-camera-part2/](http://waldobronchart.be/719/ambient-light-tv-with-a-raspberry-pi-and-camera-part2/)
+* [https://waldobronchart.com/note/ambient-light-tv-with-a-raspberry-pi-part1](https://waldobronchart.com/note/ambient-light-tv-with-a-raspberry-pi-part1)
+* [https://waldobronchart.com/note/ambient-light-tv-with-a-raspberry-pi-and-camera-part2](https://waldobronchart.com/note/ambient-light-tv-with-a-raspberry-pi-and-camera-part2)
 
 Building the application
 ----------------------------------------
