@@ -124,6 +124,7 @@ void LEDController::ShiftOut8Bits(int clockPin, int dataPin, uint8_t c)
 
 		digitalWrite(clockPin, 0);
 		digitalWrite(dataPin, val);
+		nanosleep(100, NULL);
 		digitalWrite(clockPin, 1);
 	}
 	#endif
