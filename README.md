@@ -59,7 +59,7 @@ Clone this git repo or your fork to your home folder (default /root/).
     cd ~
     git clone https://github.com/waldobronchart/AmbientLightServer (or your own fork)
 
-Install all prerequisites. 
+#### Install Prerequisites (Arch Linux)
 
     # Jannson: JSON library used for serialisation
     pacman -S jansson
@@ -102,7 +102,11 @@ OpenCV doesn't currently allow turning off Auto Exposure on the camera, so I cur
     make
     make install
 
-I should actually stop using OpenCV and use libwebcam directly, but I'm lazy and it works just fine :).
+#### Install Prerequisites (Raspbian)
+
+```
+sudo apt install git libjansson-dev liblog4cplus-dev libboost-dev wiringpi libopencv-dev libopencv-dev libboost-thread-dev libboost-date-time-dev libboost-system-dev libboost-iostreams-dev libboost-timer-dev
+```
 
 ### Compiling and running
 
